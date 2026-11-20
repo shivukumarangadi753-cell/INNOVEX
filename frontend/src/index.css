@@ -5,10 +5,11 @@
 @layer base {
   html {
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: -0.011em;
   }
 
   body {
-    @apply bg-cream-100 text-slate-900 transition-colors duration-200;
+    @apply bg-cream-100 text-slate-900 transition-colors duration-200 antialiased;
   }
 
   /* Dark mode overrides */
@@ -21,7 +22,7 @@
   }
 
   .dark .bg-cream-50 {
-    @apply bg-navy-surface text-slate-200 border-slate-700;
+    @apply bg-navy-surface/80 text-slate-200 border-slate-800;
   }
 
   .dark .text-navy {
@@ -49,6 +50,12 @@
   .dark .border-slate-100 {
     @apply border-slate-700/70;
   }
+}
+
+/* Glassmorphism utility */
+.glass-nav {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* Accessible focus ring */

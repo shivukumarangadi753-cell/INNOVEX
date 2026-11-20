@@ -81,16 +81,16 @@ export const About: React.FC = () => {
       </div>
 
       {/* Mission Card: Alerts, Not Just Maps */}
-      <Card className="bg-gradient-to-br from-navy to-navy-dark text-white p-6 sm:p-8 shadow-card border-none">
+      <Card className="bg-gradient-to-br from-navy via-navy-dark to-navy-surface text-white p-6 sm:p-8 shadow-float border border-white/10 rounded-2xl">
         <div className="max-w-3xl space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-forest/30 border border-forest-light text-forest-light text-xs font-semibold">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-forest/30 border border-forest-light text-forest-light text-xs font-bold shadow-xs">
             <ShieldCheck className="w-4 h-4" />
             Core Architectural Principle
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
             {t('mission.heading', 'Why Alerts, Not Just Maps?')}
           </h2>
-          <p className="text-sm sm:text-base text-cream-100/90 leading-relaxed">
+          <p className="text-sm sm:text-base text-cream-100/90 leading-relaxed font-normal">
             {t(
               'mission.body',
               'Traditional conservation platforms provide beautiful static maps, but maps do not stop chainsaws or save drying wetlands. PRAKRITI-NETRA shifts the paradigm from passive monitoring to automated, proactive alerting. By continuously running change-detection algorithms over Sentinel and NASA open satellite feeds, we deliver targeted, geocoded alerts straight to range officers before damage becomes irreversible.'
@@ -102,35 +102,35 @@ export const About: React.FC = () => {
       {/* Key National Stats Grid */}
       <div className="space-y-4">
         <div className="flex items-center gap-2">
-          <BookOpen className="w-5 h-5 text-navy" />
-          <h2 className="text-lg font-bold text-navy">
+          <BookOpen className="w-5 h-5 text-navy dark:text-cream" />
+          <h2 className="text-lg font-bold text-navy dark:text-white">
             {t('stats.heading', "The Challenge: India's Natural Wealth in Numbers")}
           </h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="p-5 border-l-4 border-l-forest bg-white">
-            <span className="text-3xl font-extrabold text-forest">{t('stats.stat1Value', '21.76%')}</span>
-            <h4 className="font-bold text-sm text-slate-800 mt-1">{t('stats.stat1Label', 'National Forest Cover')}</h4>
-            <p className="text-xs text-slate-500 mt-1">{t('stats.stat1Sub', '25.17% including tree cover outside forests (ISFR 2023)')}</p>
+          <Card className="p-5 border-l-4 border-l-forest bg-gradient-to-br from-forest-bg/15 to-white dark:to-navy-dark shadow-subtle hover:shadow-card hover:-translate-y-0.5 transition-all">
+            <span className="text-3xl font-black text-forest">{t('stats.stat1Value', '21.76%')}</span>
+            <h4 className="font-bold text-sm text-slate-800 dark:text-slate-100 mt-1">{t('stats.stat1Label', 'National Forest Cover')}</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t('stats.stat1Sub', '25.17% including tree cover outside forests (ISFR 2023)')}</p>
           </Card>
 
-          <Card className="p-5 border-l-4 border-l-rust bg-white">
-            <span className="text-3xl font-extrabold text-rust">{t('stats.stat2Value', '2 Years')}</span>
-            <h4 className="font-bold text-sm text-slate-800 mt-1">{t('stats.stat2Label', 'Survey Gap')}</h4>
-            <p className="text-xs text-slate-500 mt-1">{t('stats.stat2Sub', 'Time between biennial ISFR surveys—far too slow to halt illegal clearing')}</p>
+          <Card className="p-5 border-l-4 border-l-rust bg-gradient-to-br from-rust-bg/15 to-white dark:to-navy-dark shadow-subtle hover:shadow-card hover:-translate-y-0.5 transition-all">
+            <span className="text-3xl font-black text-rust">{t('stats.stat2Value', '2 Years')}</span>
+            <h4 className="font-bold text-sm text-slate-800 dark:text-slate-100 mt-1">{t('stats.stat2Label', 'Survey Gap')}</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t('stats.stat2Sub', 'Time between biennial ISFR surveys—far too slow to halt illegal clearing')}</p>
           </Card>
 
-          <Card className="p-5 border-l-4 border-l-teal bg-white">
-            <span className="text-3xl font-extrabold text-teal">{t('stats.stat3Value', '~80%')}</span>
-            <h4 className="font-bold text-sm text-slate-800 mt-1">{t('stats.stat3Label', 'Agricultural Freshwater')}</h4>
-            <p className="text-xs text-slate-500 mt-1">{t('stats.stat3Sub', "Share of India's annual freshwater consumed by irrigation")}</p>
+          <Card className="p-5 border-l-4 border-l-teal bg-gradient-to-br from-teal-bg/15 to-white dark:to-navy-dark shadow-subtle hover:shadow-card hover:-translate-y-0.5 transition-all">
+            <span className="text-3xl font-black text-teal">{t('stats.stat3Value', '~80%')}</span>
+            <h4 className="font-bold text-sm text-slate-800 dark:text-slate-100 mt-1">{t('stats.stat3Label', 'Agricultural Freshwater')}</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t('stats.stat3Sub', "Share of India's annual freshwater consumed by irrigation")}</p>
           </Card>
 
-          <Card className="p-5 border-l-4 border-l-amber bg-white">
-            <span className="text-3xl font-extrabold text-amber-dark">{t('stats.stat4Value', '~25%')}</span>
-            <h4 className="font-bold text-sm text-slate-800 mt-1">{t('stats.stat4Label', 'Global Extraction')}</h4>
-            <p className="text-xs text-slate-500 mt-1">{t('stats.stat4Sub', 'Share of global groundwater extracted in India—more than China & US combined')}</p>
+          <Card className="p-5 border-l-4 border-l-amber bg-gradient-to-br from-amber-bg/15 to-white dark:to-navy-dark shadow-subtle hover:shadow-card hover:-translate-y-0.5 transition-all">
+            <span className="text-3xl font-black text-amber-dark">{t('stats.stat4Value', '~25%')}</span>
+            <h4 className="font-bold text-sm text-slate-800 dark:text-slate-100 mt-1">{t('stats.stat4Label', 'Global Extraction')}</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t('stats.stat4Sub', 'Share of global groundwater extracted in India—more than China & US combined')}</p>
           </Card>
         </div>
       </div>

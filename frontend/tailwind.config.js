@@ -55,9 +55,10 @@ export default {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
       boxShadow: {
-        'subtle': '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05)',
-        'card': '0 4px 6px -1px rgba(18, 41, 107, 0.05), 0 2px 4px -2px rgba(18, 41, 107, 0.05)',
-        'float': '0 10px 15px -3px rgba(18, 41, 107, 0.1), 0 4px 6px -4px rgba(18, 41, 107, 0.05)',
+        'subtle': '0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.03)',
+        'card': '0 4px 20px -2px rgba(18, 41, 107, 0.07), 0 2px 8px -2px rgba(0, 0, 0, 0.04)',
+        'card-hover': '0 10px 25px -3px rgba(18, 41, 107, 0.1), 0 4px 10px -2px rgba(0, 0, 0, 0.04)',
+        'float': '0 16px 32px -4px rgba(18, 41, 107, 0.12), 0 6px 12px -3px rgba(0, 0, 0, 0.06)',
       },
     },
   },

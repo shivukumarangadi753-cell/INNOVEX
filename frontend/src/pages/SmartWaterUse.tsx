@@ -173,14 +173,14 @@ export const SmartWaterUse: React.FC = () => {
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex rounded-xl bg-slate-200/70 p-1 self-start md:self-auto">
+        <div className="flex rounded-2xl bg-slate-200/80 dark:bg-slate-800 p-1 self-start md:self-auto shadow-inner border border-slate-300/40 dark:border-slate-700">
           <button
             type="button"
             onClick={() => setActiveTab('farmer')}
-            className={`flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold transition-all ${
+            className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all duration-150 ${
               activeTab === 'farmer'
-                ? 'bg-white text-navy shadow-sm'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-white dark:bg-navy-dark text-navy dark:text-white shadow-sm'
+                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <Sprout className="w-4 h-4 text-forest" />
@@ -189,10 +189,10 @@ export const SmartWaterUse: React.FC = () => {
           <button
             type="button"
             onClick={() => setActiveTab('jalScore')}
-            className={`flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold transition-all ${
+            className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all duration-150 ${
               activeTab === 'jalScore'
-                ? 'bg-white text-navy shadow-sm'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-white dark:bg-navy-dark text-navy dark:text-white shadow-sm'
+                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <Building2 className="w-4 h-4 text-teal" />

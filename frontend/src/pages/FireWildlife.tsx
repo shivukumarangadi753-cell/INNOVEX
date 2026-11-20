@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import maplibregl from 'maplibre-gl';
-import { Flame, ShieldAlert, AlertTriangle, Compass, Info, Radio, Layers } from 'lucide-react';
+import { Flame, ShieldAlert, AlertTriangle, Compass, Info, Radio, Layers, Map, Satellite, Mountain } from 'lucide-react';
 
 import { Card, CardHeader, CardTitle, CardContent } from '../components/Card';
 import { Chip } from '../components/Chip';
@@ -28,6 +28,7 @@ export const FireWildlife: React.FC = () => {
   const [burnScars, setBurnScars] = useState<any[]>([]);
   const [corridors, setCorridors] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [baseMap, setBaseMap] = useState<'street' | 'satellite' | 'terrain'>('street');
   const [selectedItem, setSelectedItem] = useState<{
     type: 'hotspot' | 'burnScar' | 'corridor';
     data: any;
@@ -67,6 +68,18 @@ export const FireWildlife: React.FC = () => {
           tileSize: 256,
           attribution: '&copy; OpenStreetMap Contributors',
         },
+        satellite: {
+          type: 'raster',
+          tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+          tileSize: 256,
+          attribution: 'Tiles &copy; Esri World Imagery',
+        },
+        terrain: {
+          type: 'raster',
+          tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}'],
+          tileSize: 256,
+          attribution: 'Tiles &copy; Esri World Topo Map',
+        },
       },
       layers: [
         {
@@ -75,6 +88,29 @@ export const FireWildlife: React.FC = () => {
           source: 'osm',
           minzoom: 0,
           maxzoom: 19,
+          layout: {
+            visibility: 'visible',
+          },
+        },
+        {
+          id: 'satellite-tiles',
+          type: 'raster',
+          source: 'satellite',
+          minzoom: 0,
+          maxzoom: 19,
+          layout: {
+            visibility: 'none',
+          },
+        },
+        {
+          id: 'terrain-tiles',
+          type: 'raster',
+          source: 'terrain',
+          minzoom: 0,
+          maxzoom: 19,
+          layout: {
+            visibility: 'none',
+          },
         },
       ],
     };
@@ -179,6 +215,20 @@ export const FireWildlife: React.FC = () => {
     };
   }, [loading, hotspots, burnScars, corridors]);
 
+  // Handle Base Map Switch
+  useEffect(() => {
+    if (!map.current) return;
+    if (map.current.getLayer('osm-tiles')) {
+      map.current.setLayoutProperty('osm-tiles', 'visibility', baseMap === 'street' ? 'visible' : 'none');
+    }
+    if (map.current.getLayer('satellite-tiles')) {
+      map.current.setLayoutProperty('satellite-tiles', 'visibility', baseMap === 'satellite' ? 'visible' : 'none');
+    }
+    if (map.current.getLayer('terrain-tiles')) {
+      map.current.setLayoutProperty('terrain-tiles', 'visibility', baseMap === 'terrain' ? 'visible' : 'none');
+    }
+  }, [baseMap]);
+
   const getRiskChipVariant = (risk: 'low' | 'medium' | 'high') => {
     switch (risk) {
       case 'high':
@@ -226,23 +276,25 @@ export const FireWildlife: React.FC = () => {
       {/* Main Grid: Map & Details */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Map View Container */}
-        <Card className="lg:col-span-2 p-0 overflow-hidden flex flex-col min-h-[480px]">
-          <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-            <div className="flex items-center gap-2 text-sm font-semibold text-slate-700">
-              <Flame className="w-4 h-4 text-rust" />
+        <Card className="lg:col-span-2 p-0 overflow-hidden flex flex-col min-h-[480px] rounded-2xl border border-slate-200/90 shadow-card">
+          <div className="p-4 bg-gradient-to-r from-cream-50/70 to-white dark:from-navy-surface dark:to-navy-dark border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between">
+            <div className="flex items-center gap-2 text-sm font-bold text-navy dark:text-white">
+              <span className="p-1 rounded-md bg-rust/15 text-rust border border-rust/30">
+                <Flame className="w-4 h-4 text-rust" />
+              </span>
               <span>Interactive Surveillance Map</span>
             </div>
-            <div className="flex items-center gap-4 text-xs text-slate-600">
-              <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping inline-block" />
+            <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300 font-semibold">
+              <span className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full border border-slate-200/60 dark:border-slate-700">
+                <span className="w-2 h-2 rounded-full bg-red-600 animate-ping inline-block" />
                 Hotspots ({hotspots.length})
               </span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-3 h-2 rounded bg-rust/40 border border-rust inline-block" />
+              <span className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full border border-slate-200/60 dark:border-slate-700">
+                <span className="w-2.5 h-2 rounded bg-rust/40 border border-rust inline-block" />
                 Burn Scars ({burnScars.length})
               </span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-3 h-0.5 bg-forest inline-block" />
+              <span className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full border border-slate-200/60 dark:border-slate-700">
+                <span className="w-2.5 h-0.5 bg-forest inline-block" />
                 Corridors ({corridors.length})
               </span>
             </div>
@@ -254,6 +306,50 @@ export const FireWildlife: React.FC = () => {
                 <Skeleton className="h-full w-full" />
               </div>
             )}
+
+            {/* Base Map Switcher: Street, Satellite, Terrain */}
+            <div className="absolute top-3 left-3 z-10 flex items-center bg-white/95 dark:bg-navy-dark/95 backdrop-blur-sm p-1 rounded-xl shadow-xs border border-slate-200/90 dark:border-slate-700">
+              <button
+                type="button"
+                onClick={() => setBaseMap('street')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all duration-150 flex items-center gap-1.5 ${
+                  baseMap === 'street'
+                    ? 'bg-navy text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-navy hover:bg-slate-100 dark:hover:bg-slate-800'
+                }`}
+                title="Default Street View"
+              >
+                <Map className="w-3.5 h-3.5" />
+                <span>Street</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setBaseMap('satellite')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all duration-150 flex items-center gap-1.5 ${
+                  baseMap === 'satellite'
+                    ? 'bg-forest text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-navy hover:bg-slate-100 dark:hover:bg-slate-800'
+                }`}
+                title="High-resolution Satellite Imagery"
+              >
+                <Satellite className="w-3.5 h-3.5" />
+                <span>Satellite</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setBaseMap('terrain')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all duration-150 flex items-center gap-1.5 ${
+                  baseMap === 'terrain'
+                    ? 'bg-teal text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-navy hover:bg-slate-100 dark:hover:bg-slate-800'
+                }`}
+                title="Topographical Elevation / Terrain View"
+              >
+                <Mountain className="w-3.5 h-3.5" />
+                <span>Terrain</span>
+              </button>
+            </div>
+
             <div ref={mapContainer} className="w-full h-full" />
           </div>
         </Card>
