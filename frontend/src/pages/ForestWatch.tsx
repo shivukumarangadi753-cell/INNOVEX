@@ -19,6 +19,7 @@ import { ImageSlider } from '../components/ImageSlider';
 import { ReserveMap } from '../components/ReserveMap';
 import { Button } from '../components/Button';
 import { Chip } from '../components/Chip';
+import { checkBhuvanWmsAvailability } from '../services/bhuvanService';
 
 export const ForestWatch: React.FC = () => {
   const { t } = useTranslation('forest');
@@ -27,10 +28,12 @@ export const ForestWatch: React.FC = () => {
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);
   const [currentPass, setCurrentPass] = useState<'T1' | 'T2'>('T2');
+  const [bhuvanAvailable, setBhuvanAvailable] = useState(false);
   const [layers, setLayers] = useState({
     ndvi: true,
     change: true,
     radar: false,
+    bhuvan: false,
   });
 
   useEffect(() => {
@@ -39,9 +42,13 @@ export const ForestWatch: React.FC = () => {
       setAlerts(al);
       if (al.length > 0) setSelectedAlert(al[0]);
     });
+
+    checkBhuvanWmsAvailability().then((res) => {
+      setBhuvanAvailable(res.isAvailable);
+    });
   }, []);
 
-  const toggleLayer = (layerKey: 'ndvi' | 'change' | 'radar') => {
+  const toggleLayer = (layerKey: 'ndvi' | 'change' | 'radar' | 'bhuvan') => {
     setLayers((prev) => ({ ...prev, [layerKey]: !prev[layerKey] }));
   };
 
@@ -182,6 +189,21 @@ export const ForestWatch: React.FC = () => {
                   Radar SAR
                   <Tooltip term="Sentinel-1 SAR" text={t('layers.radarTip', 'Synthetic Aperture Radar backscatter penetrates cloud cover during monsoons.')} />
                 </button>
+
+                {bhuvanAvailable && (
+                  <button
+                    type="button"
+                    onClick={() => toggleLayer('bhuvan')}
+                    className={`text-xs px-2.5 py-1.5 rounded-lg font-medium border flex items-center gap-1 transition-colors ${
+                      layers.bhuvan
+                        ? 'bg-amber-100 text-amber-900 border-amber-300'
+                        : 'bg-white text-slate-500 border-slate-200'
+                    }`}
+                  >
+                    <span className={`w-2 h-2 rounded-full ${layers.bhuvan ? 'bg-amber-600' : 'bg-slate-300'}`} />
+                    ISRO Bhuvan WMS
+                  </button>
+                )}
               </div>
             </CardHeader>
 

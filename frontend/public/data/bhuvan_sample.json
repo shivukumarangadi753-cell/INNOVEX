@@ -1,0 +1,26 @@
+{
+  "source": "ISRO Bhuvan Geoportal (WMS)",
+  "provider": "National Remote Sensing Centre (NRSC) / ISRO",
+  "area": "Kudremukh, Karnataka",
+  "layers": [
+    {
+      "id": "bhuvan_lulc_50k",
+      "name": "Land Use / Land Cover (LULC) 1:50,000",
+      "description": "Multi-temporal classification distinguishing evergreen forest, deciduous forest, scrubs, and agricultural areas",
+      "wms_url": "https://bhuvan-vec1.nrsc.gov.in/bhuvan/wms",
+      "wms_layer": "lulc:KA_LULC50K_1516",
+      "format": "image/png"
+    },
+    {
+      "id": "bhuvan_forest_boundary",
+      "name": "Forest Reserve & Protected Area Boundary",
+      "description": "Administrative boundaries of Karnataka Forest Department reserves and Western Ghats eco-sensitive zones",
+      "wms_url": "https://bhuvan-vec1.nrsc.gov.in/bhuvan/wms",
+      "wms_layer": "forest:KA_RESERVE_FOREST",
+      "format": "image/png"
+    }
+  ],
+  "capabilities_status": "probed",
+  "cors_policy": "Public WMS proxy recommended for browser WebGL clients",
+  "last_updated": "2026-11-01T00:00:00Z"
+}

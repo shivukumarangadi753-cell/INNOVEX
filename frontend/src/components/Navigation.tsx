@@ -9,6 +9,7 @@ import {
   Gauge,
   Bell,
   Info,
+  Database,
 } from 'lucide-react';
 
 interface NavItem {
@@ -53,6 +54,11 @@ export const Navigation: React.FC = () => {
       label: t('nav.alerts', 'Alerts'),
       icon: <Bell className="w-5 h-5 shrink-0" />,
       badge: 3,
+    },
+    {
+      to: '/data-sources',
+      label: t('nav.dataSources', 'Data Sources'),
+      icon: <Database className="w-5 h-5 shrink-0" />,
     },
     {
       to: '/about',

@@ -11,6 +11,7 @@ import Overview from './pages/Overview';
 import ForestWatch from './pages/ForestWatch';
 import Alerts from './pages/Alerts';
 import About from './pages/About';
+import DataSources from './pages/DataSources';
 
 // Specialized Partner Pages (Sidharthan's Lane)
 import FireWildlife from './pages/FireWildlife';
@@ -54,6 +55,9 @@ export const App: React.FC = () => {
 
                 {/* Milestone 5: Alerts Page */}
                 <Route path="/alerts" element={<Alerts />} />
+
+                {/* Data Sources Integration */}
+                <Route path="/data-sources" element={<DataSources />} />
 
                 {/* Milestone 6: About Page */}
                 <Route path="/about" element={<About />} />

@@ -120,7 +120,17 @@ def test_advisor_jal_score_endpoint():
 
 
 def test_telegram_alert_dispatch_unconfigured_graceful():
-    res = dispatch_alert_to_telegram("alt_6588e3ea")
+    from app.db import list_alerts
+    from data.generate_demo import generate_demo_dataset
+    from ml.detector import run_detector_pipeline
+
+    alerts = list_alerts()
+    if not alerts:
+        generate_demo_dataset()
+        alerts = run_detector_pipeline()
+
+    target_id = alerts[0].id
+    res = dispatch_alert_to_telegram(target_id)
     validated = TelegramDispatchResponse(**res)
     assert validated.sent is False
     assert "Telegram not configured" in validated.detail or "failed" in validated.detail

@@ -14,6 +14,7 @@ interface ReserveMapProps {
     ndvi?: boolean;
     change?: boolean;
     radar?: boolean;
+    bhuvan?: boolean;
   };
   className?: string;
   interactive?: boolean;
@@ -218,6 +219,43 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
         }
       }
     });
+
+    // 3. ISRO Bhuvan WMS Layer (Optional)
+    const bhuvanSourceId = 'bhuvan-wms-source';
+    const bhuvanLayerId = 'bhuvan-wms-layer';
+
+    if (activeLayers.bhuvan) {
+      if (!map.getSource(bhuvanSourceId)) {
+        try {
+          map.addSource(bhuvanSourceId, {
+            type: 'raster',
+            tiles: [
+              'https://bhuvan-vec1.nrsc.gov.in/bhuvan/wms?service=WMS&version=1.1.1&request=GetMap&layers=lulc:KA_LULC50K_1516&styles=&bbox={bbox-epsg-3857}&width=256&height=256&srs=EPSG:3857&format=image/png&transparent=true',
+            ],
+            tileSize: 256,
+          });
+
+          map.addLayer(
+            {
+              id: bhuvanLayerId,
+              type: 'raster',
+              source: bhuvanSourceId,
+              paint: { 'raster-opacity': 0.6 },
+            },
+            'reserve-line'
+          );
+        } catch (e) {
+          console.warn('Bhuvan WMS layer failed gracefully:', e);
+        }
+      }
+    } else {
+      if (map.getLayer(bhuvanLayerId)) {
+        map.removeLayer(bhuvanLayerId);
+      }
+      if (map.getSource(bhuvanSourceId)) {
+        map.removeSource(bhuvanSourceId);
+      }
+    }
   }, [reserve, alerts, selectedAlertId, mapLoaded, activeLayers, onSelectAlert]);
 
   const resetView = () => {

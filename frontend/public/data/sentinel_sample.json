@@ -1,0 +1,20 @@
+{
+  "source": "Copernicus Sentinel-2 MSI",
+  "area": "Kudremukh National Park, Karnataka",
+  "tile": "43PGK",
+  "orbit": "R034",
+  "baseline_pass": {
+    "date": "2026-10-15",
+    "cloud_coverage_pct": 1.2,
+    "image_url": "/data/kudremukh_sentinel2_before.png",
+    "bands": ["B02_Blue", "B03_Green", "B04_Red", "B08_NIR", "B11_SWIR", "B12_SWIR", "SCL"]
+  },
+  "monitoring_pass": {
+    "date": "2026-11-15",
+    "cloud_coverage_pct": 2.4,
+    "image_url": "/data/kudremukh_sentinel2_after.png",
+    "bands": ["B02_Blue", "B03_Green", "B04_Red", "B08_NIR", "B11_SWIR", "B12_SWIR", "SCL"]
+  },
+  "resolution_meters": 10,
+  "last_updated": "2026-11-15T05:30:00Z"
+}

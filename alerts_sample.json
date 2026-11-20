@@ -1,0 +1,132 @@
+{
+  "source": "SAMPLE DATA (not real alerts)",
+  "area": "Kudremukh, Karnataka",
+  "alerts": [
+    {
+      "id": "SAMPLE-001",
+      "lat": 13.08772,
+      "lon": 75.1662,
+      "date": "2026-01-03",
+      "area_ha": 3.8,
+      "confidence": "high",
+      "status": "confirmed"
+    },
+    {
+      "id": "SAMPLE-013",
+      "lat": 13.12378,
+      "lon": 75.2894,
+      "date": "2026-01-24",
+      "area_ha": 3.3,
+      "confidence": "nominal",
+      "status": "rejected"
+    },
+    {
+      "id": "SAMPLE-003",
+      "lat": 13.06776,
+      "lon": 75.26225,
+      "date": "2026-01-27",
+      "area_ha": 2.8,
+      "confidence": "high",
+      "status": "pending"
+    },
+    {
+      "id": "SAMPLE-002",
+      "lat": 13.14987,
+      "lon": 75.34833,
+      "date": "2026-04-02",
+      "area_ha": 0.8,
+      "confidence": "high",
+      "status": "pending"
+    },
+    {
+      "id": "SAMPLE-004",
+      "lat": 13.1485,
+      "lon": 75.2252,
+      "date": "2026-04-02",
+      "area_ha": 2.7,
+      "confidence": "high",
+      "status": "confirmed"
+    },
+    {
+      "id": "SAMPLE-006",
+      "lat": 13.03473,
+      "lon": 75.26709,
+      "date": "2026-04-12",
+      "area_ha": 0.9,
+      "confidence": "nominal",
+      "status": "pending"
+    },
+    {
+      "id": "SAMPLE-008",
+      "lat": 13.15053,
+      "lon": 75.23876,
+      "date": "2026-05-08",
+      "area_ha": 3.7,
+      "confidence": "nominal",
+      "status": "pending"
+    },
+    {
+      "id": "SAMPLE-014",
+      "lat": 13.0783,
+      "lon": 75.22259,
+      "date": "2026-06-01",
+      "area_ha": 4.3,
+      "confidence": "high",
+      "status": "pending"
+    },
+    {
+      "id": "SAMPLE-010",
+      "lat": 13.03834,
+      "lon": 75.23035,
+      "date": "2026-06-05",
+      "area_ha": 4.2,
+      "confidence": "high",
+      "status": "pending"
+    },
+    {
+      "id": "SAMPLE-009",
+      "lat": 13.02965,
+      "lon": 75.20206,
+      "date": "2026-08-11",
+      "area_ha": 3.4,
+      "confidence": "high",
+      "status": "pending"
+    },
+    {
+      "id": "SAMPLE-007",
+      "lat": 13.14545,
+      "lon": 75.27856,
+      "date": "2026-08-22",
+      "area_ha": 2.6,
+      "confidence": "high",
+      "status": "rejected"
+    },
+    {
+      "id": "SAMPLE-011",
+      "lat": 13.24088,
+      "lon": 75.14863,
+      "date": "2026-09-19",
+      "area_ha": 3.7,
+      "confidence": "high",
+      "status": "confirmed"
+    },
+    {
+      "id": "SAMPLE-005",
+      "lat": 13.11059,
+      "lon": 75.25976,
+      "date": "2026-10-10",
+      "area_ha": 2.7,
+      "confidence": "nominal",
+      "status": "pending"
+    },
+    {
+      "id": "SAMPLE-012",
+      "lat": 13.17687,
+      "lon": 75.27265,
+      "date": "2026-10-26",
+      "area_ha": 2.3,
+      "confidence": "high",
+      "status": "confirmed"
+    }
+  ]
+}
