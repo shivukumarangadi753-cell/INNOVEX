@@ -11,10 +11,18 @@ import {
   Info,
 } from 'lucide-react';
 
+interface NavItem {
+  to: string;
+  label: string;
+  icon: React.ReactNode;
+  badge?: number;
+  tag?: string;
+}
+
 export const Navigation: React.FC = () => {
   const { t } = useTranslation('common');
 
-  const navItems = [
+  const navItems: NavItem[] = [
     {
       to: '/',
       label: t('nav.overview', 'Overview'),
@@ -29,19 +37,16 @@ export const Navigation: React.FC = () => {
       to: '/fire-wildlife',
       label: t('nav.fireWildlife', 'Fire & Wildlife'),
       icon: <Flame className="w-5 h-5 shrink-0" />,
-      tag: 'Sidharthan',
     },
     {
       to: '/water',
       label: t('nav.waterWatch', 'Water Watch'),
       icon: <Droplets className="w-5 h-5 shrink-0" />,
-      tag: 'Sidharthan',
     },
     {
       to: '/smart-water',
       label: t('nav.smartWaterUse', 'Smart Water Use'),
       icon: <Gauge className="w-5 h-5 shrink-0" />,
-      tag: 'Sidharthan',
     },
     {
       to: '/alerts',
