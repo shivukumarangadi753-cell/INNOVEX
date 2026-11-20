@@ -1,0 +1,28 @@
+{
+  "appName": "PRAKRITI-NETRA",
+  "appSubtitle": "प्रकृति-नेत्र | ಪ್ರಕೃತಿ-ನೇತ್ರ",
+  "tagline": "The Satellite Eye for India's Forests, Water & Wildlife",
+  "reserveName": "Kudremukh Reserve Forest, Karnataka",
+  "demoBadge": "DEMO DATA",
+  "liveBadge": "LIVE SATELLITE",
+  "nav": {
+    "overview": "Overview",
+    "forestWatch": "Forest Watch",
+    "fireWildlife": "Fire & Wildlife",
+    "waterWatch": "Water Watch",
+    "smartWaterUse": "Smart Water Use",
+    "alerts": "Alerts",
+    "about": "About"
+  },
+  "actions": {
+    "refresh": "Refresh Data",
+    "export": "Export Report",
+    "close": "Close",
+    "viewDetails": "View Details",
+    "back": "Back"
+  },
+  "footer": {
+    "track": "Code for Innovex '26 • Track: Protecting Natural Wealth",
+    "principle": "Principle: Alerts, not just maps."
+  }
+}

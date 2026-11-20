@@ -1,0 +1,60 @@
+{
+  "title": "About PRAKRITI-NETRA",
+  "subtitle": "The Satellite Eye for India's Forests, Water & Wildlife • Code for Innovex '26",
+  "mission": {
+    "heading": "Why Alerts, Not Just Maps?",
+    "body": "Traditional conservation platforms provide beautiful static maps, but maps do not stop chainsaws or save drying wetlands. PRAKRITI-NETRA shifts the paradigm from passive monitoring to automated, proactive alerting. By continuously running change-detection algorithms over Sentinel and NASA open satellite feeds, we deliver targeted, geocoded alerts straight to range officers before damage becomes irreversible."
+  },
+  "stats": {
+    "heading": "The Challenge: India's Natural Wealth in Numbers",
+    "stat1Value": "21.76%",
+    "stat1Label": "National Forest Cover",
+    "stat1Sub": "25.17% including tree cover outside forests (ISFR 2023)",
+    "stat2Value": "2 Years",
+    "stat2Label": "Survey Gap",
+    "stat2Sub": "Time between biennial ISFR surveys—far too slow to halt illegal clearing",
+    "stat3Value": "~80%",
+    "stat3Label": "Agricultural Freshwater",
+    "stat3Sub": "Share of India's annual freshwater consumed by irrigation",
+    "stat4Value": "~25%",
+    "stat4Label": "Global Extraction",
+    "stat4Sub": "Share of global groundwater extracted in India—more than China & US combined"
+  },
+  "sdgs": {
+    "heading": "United Nations Sustainable Development Goals",
+    "sdg6": "SDG 6: Clean Water & Sanitation",
+    "sdg6Desc": "Monitoring surface reservoir contraction and incentivizing water reuse.",
+    "sdg13": "SDG 13: Climate Action",
+    "sdg13Desc": "Preventing canopy biomass carbon loss and monitoring wildfire risk.",
+    "sdg15": "SDG 15: Life on Land",
+    "sdg15Desc": "Defending biodiversity hotspots and maintaining wildlife corridor connectivity."
+  },
+  "roadmap": {
+    "heading": "Product Evolution Roadmap",
+    "nowTitle": "NOW (MVP)",
+    "nowDesc": "Kudremukh Western Ghats reserve pilot; Sentinel-2 & SAR bi-temporal canopy change detection; Telegram field alert dispatch; mock & live API integration.",
+    "nextTitle": "NEXT",
+    "nextDesc": "Automated Copernicus weekly ingestion cron; offline SMS alerts for remote beats without 4G; drone coordinate dispatch for high-confidence anomalies.",
+    "laterTitle": "LATER",
+    "laterDesc": "Pan-India coverage of 106 National Parks & 573 Wildlife Sanctuaries; citizen ground-truthing portal; on-orbit satellite edge AI inference."
+  },
+  "sources": {
+    "heading": "Official References & Data Sources",
+    "source1": "Forest Survey of India (FSI) — India State of Forest Report (ISFR 2023)",
+    "source2": "Ministry of Jal Shakti & NITI Aayog — Composite Water Management Index",
+    "source3": "UN-Water & World Bank — Ground Water Resource Assessment Report",
+    "source4": "European Space Agency (ESA) & Copernicus Open Access Hub — Sentinel-1 & Sentinel-2",
+    "source5": "NASA FIRMS — Fire Information for Resource Management System (VIIRS/MODIS)"
+  },
+  "tour": {
+    "btnStart": "Start 4-Step Guided Tour",
+    "step1Title": "1. The Satellite Eye",
+    "step1Desc": "Welcome to Prakriti-Netra. We monitor high-biodiversity ecosystems using Copernicus Sentinel-2 optical and Sentinel-1 radar satellites.",
+    "step2Title": "2. Alerts, Not Just Maps",
+    "step2Desc": "Instead of waiting for 2-year survey cycles, our automated pipeline flags sudden canopy loss and fires as soon as a satellite passes overhead.",
+    "step3Title": "3. Hydrological Watch",
+    "step3Desc": "Track lake water spread contraction and groundwater depletion to protect wetlands before drinking water crises emerge.",
+    "step4Title": "4. Ground Action & Telegram",
+    "step4Desc": "Review flagged alerts with Before/After satellite imagery, confirm status, and dispatch instant GPS alerts to field patrol officers via Telegram."
+  }
+}

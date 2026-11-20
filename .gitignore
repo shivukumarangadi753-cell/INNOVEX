@@ -1,7 +1,8 @@
-# Dependencies
+# Dependencies & Tools
 node_modules/
 /.pnp
 .pnp.js
+.tools/
 
 # Production build
 dist/
@@ -14,11 +15,13 @@ dist-ssr/
 .env.production
 .env.development
 
-# Old archive
-_archive_salary_project/
+# Python virtual environments & caches
 .venv/
+.venv*/
 venv/
 __pycache__/
+*.py[cod]
+.pytest_cache/
 
 # Editor & OS files
 .vscode/
@@ -36,7 +39,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
 
 # Prakriti-Netra backend & rasters
 *.db

@@ -1,0 +1,54 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [75.2200, 13.1700],
+          [75.2500, 13.2000],
+          [75.2800, 13.2500],
+          [75.3100, 13.2800]
+        ]
+      },
+      "properties": {
+        "name": "Kudremukh - Someshwara Elephant Corridor",
+        "risk": "medium",
+        "reason": "Linear infrastructure construction and increased night traffic on state highway"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [75.2000, 13.2300],
+          [75.2400, 13.2450],
+          [75.2700, 13.2600]
+        ]
+      },
+      "properties": {
+        "name": "Bhadra Catchment Tiger Dispersal Path",
+        "risk": "high",
+        "reason": "Active 2.4 ha canopy fragmentation detected in corridor bottleneck"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [75.1800, 13.1800],
+          [75.1950, 13.2100],
+          [75.2100, 13.2400]
+        ]
+      },
+      "properties": {
+        "name": "Agumbe Rain Forest Buffer Link",
+        "risk": "low",
+        "reason": "Intact dense canopy with minimal anthropogenic pressure"
+      }
+    }
+  ]
+}

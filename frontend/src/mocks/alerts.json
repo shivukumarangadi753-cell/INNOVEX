@@ -1,0 +1,122 @@
+[
+  {
+    "id": "alt-001",
+    "reserve_id": "res-kudremukh",
+    "status": "open",
+    "label": "clearing",
+    "area_ha": 2.4,
+    "confidence": 0.92,
+    "centroid": {
+      "lat": 13.2215,
+      "lng": 75.2548
+    },
+    "polygon": {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [75.2530, 13.2200],
+            [75.2565, 13.2205],
+            [75.2570, 13.2230],
+            [75.2540, 13.2235],
+            [75.2530, 13.2200]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "alt-001",
+        "label": "clearing",
+        "area_ha": 2.4,
+        "confidence": 0.92,
+        "name": "Kudremukh South Ridge Clearing"
+      }
+    },
+    "detected_at": "2026-11-18T05:30:00Z",
+    "pass_t1": "2026-11-06T05:30:00Z",
+    "pass_t2": "2026-11-18T05:30:00Z",
+    "before_image_url": "/static/alerts/alert-001_before.png",
+    "after_image_url": "/static/alerts/alert-001_after.png",
+    "data_mode": "demo"
+  },
+  {
+    "id": "alt-002",
+    "reserve_id": "res-kudremukh",
+    "status": "open",
+    "label": "fire_scar",
+    "area_ha": 5.1,
+    "confidence": 0.87,
+    "centroid": {
+      "lat": 13.1942,
+      "lng": 75.2810
+    },
+    "polygon": {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [75.2780, 13.1920],
+            [75.2840, 13.1925],
+            [75.2845, 13.1965],
+            [75.2790, 13.1960],
+            [75.2780, 13.1920]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "alt-002",
+        "label": "fire_scar",
+        "area_ha": 5.1,
+        "confidence": 0.87,
+        "name": "Eastern Grassland Burn Scar"
+      }
+    },
+    "detected_at": "2026-11-17T09:15:00Z",
+    "pass_t1": "2026-11-05T09:15:00Z",
+    "pass_t2": "2026-11-17T09:15:00Z",
+    "before_image_url": "/static/alerts/alert-002_before.png",
+    "after_image_url": "/static/alerts/alert-002_after.png",
+    "data_mode": "demo"
+  },
+  {
+    "id": "alt-003",
+    "reserve_id": "res-kudremukh",
+    "status": "confirmed",
+    "label": "clearing",
+    "area_ha": 1.8,
+    "confidence": 0.94,
+    "centroid": {
+      "lat": 13.2450,
+      "lng": 75.2390
+    },
+    "polygon": {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [75.2370, 13.2435],
+            [75.2410, 13.2440],
+            [75.2415, 13.2468],
+            [75.2375, 13.2462],
+            [75.2370, 13.2435]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "alt-003",
+        "label": "clearing",
+        "area_ha": 1.8,
+        "confidence": 0.94,
+        "name": "Northwest Buffer Road Encroachment"
+      }
+    },
+    "detected_at": "2026-11-14T05:30:00Z",
+    "pass_t1": "2026-11-02T05:30:00Z",
+    "pass_t2": "2026-11-14T05:30:00Z",
+    "before_image_url": "/static/alerts/alert-003_before.png",
+    "after_image_url": "/static/alerts/alert-003_after.png",
+    "data_mode": "demo"
+  }
+]

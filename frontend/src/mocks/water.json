@@ -1,0 +1,51 @@
+{
+  "lakes": [
+    {
+      "id": "lake-lakhya",
+      "name": "Lakhya Tailing Lake & Wetland Reservoir (Kudremukh)",
+      "centroid": {
+        "lat": 13.2380,
+        "lng": 75.2450
+      },
+      "data_mode": "demo"
+    },
+    {
+      "id": "lake-bhadra",
+      "name": "Upper Bhadra River Catchment Wetland",
+      "centroid": {
+        "lat": 13.2850,
+        "lng": 75.3120
+      },
+      "data_mode": "demo"
+    }
+  ],
+  "trends": {
+    "lake-lakhya": {
+      "lake_id": "lake-lakhya",
+      "name": "Lakhya Tailing Lake & Wetland Reservoir (Kudremukh)",
+      "points": [
+        { "date": "2026-06-01", "area_ha": 182.4 },
+        { "date": "2026-07-01", "area_ha": 210.1 },
+        { "date": "2026-08-01", "area_ha": 224.5 },
+        { "date": "2026-09-01", "area_ha": 218.0 },
+        { "date": "2026-10-01", "area_ha": 195.3 },
+        { "date": "2026-11-01", "area_ha": 174.2 },
+        { "date": "2026-11-18", "area_ha": 161.8 }
+      ],
+      "change_pct": -17.1,
+      "warning": true,
+      "data_mode": "demo"
+    }
+  },
+  "groundwater": {
+    "station": "CGWB-KUDREMUKH-04",
+    "unit": "m_below_ground",
+    "points": [
+      { "date": "2026-05-15", "depth_m": 8.4 },
+      { "date": "2026-07-15", "depth_m": 4.1 },
+      { "date": "2026-09-15", "depth_m": 3.2 },
+      { "date": "2026-11-15", "depth_m": 6.8 }
+    ],
+    "data_mode": "demo"
+  }
+}
