@@ -1,0 +1,55 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "burn_scar_01",
+      "properties": {
+        "id": "burn_scar_01",
+        "name": "Kudremukh Western Slopes Fire Scar",
+        "detected_date": "2026-11-15T08:00:00Z",
+        "area_ha": 42.5,
+        "severity": "high",
+        "data_mode": "demo"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [75.205, 13.208],
+            [75.218, 13.210],
+            [75.222, 13.220],
+            [75.211, 13.225],
+            [75.202, 13.217],
+            [75.205, 13.208]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "burn_scar_02",
+      "properties": {
+        "id": "burn_scar_02",
+        "name": "Shola Grassland Edge Burn",
+        "detected_date": "2026-11-18T10:30:00Z",
+        "area_ha": 18.2,
+        "severity": "medium",
+        "data_mode": "demo"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [75.275, 13.160],
+            [75.286, 13.162],
+            [75.290, 13.172],
+            [75.278, 13.174],
+            [75.271, 13.168],
+            [75.275, 13.160]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "title": "Water Watch Dashboard",
+  "subtitle": "Satellite NDWI multi-temporal lake surface area and regional groundwater depth telemetry",
+  "demoBadge": "DEMO DATA",
+  "earlyWarningTitle": "Drying-Lake Early Warning Triggered",
+  "earlyWarningMessage": "Critical surface contraction detected! Surface area has fallen by more than {{pct}}% over the recent observation cycle.",
+  "lakeTrendTitle": "Lake Surface Extent Trend (NDWI)",
+  "groundwaterTitle": "Groundwater Depth Telemetry (Observation Well)",
+  "selectLake": "Select Water Body",
+  "currentExtent": "Current Extent",
+  "sixMonthChange": "Surface Area Change",
+  "currentDepth": "Current Depth Below Surface",
+  "ndwiTooltipTitle": "What is NDWI?",
+  "ndwiTooltipText": "Normalized Difference Water Index (NDWI) isolates open water bodies from space by comparing reflected green light and near-infrared absorption. Higher values outline true surface water boundaries.",
+  "gwTooltipTitle": "Understanding Groundwater Depth",
+  "gwTooltipText": "Measured in meters below ground level (mbgl). As this number rises, the underground water table is sinking deeper, indicating depletion of local aquifers."
+}

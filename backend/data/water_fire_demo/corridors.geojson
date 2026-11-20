@@ -1,0 +1,60 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "corridor_kudremukh_someshwara",
+      "properties": {
+        "name": "Kudremukh-Someshwara Elephant Corridor",
+        "risk": "high",
+        "reason": "Active thermal hotspots and human encroachment detected along eastern fringe."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [75.145, 13.120],
+          [75.178, 13.155],
+          [75.204, 13.195],
+          [75.228, 13.235],
+          [75.250, 13.270]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "corridor_bhadra_kudremukh",
+      "properties": {
+        "name": "Bhadra-Kudremukh Tiger Dispersal Route",
+        "risk": "medium",
+        "reason": "Seasonal canopy thinning and road crossing friction observed near Kalasa ridge."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [75.240, 13.290],
+          [75.285, 13.310],
+          [75.335, 13.340],
+          [75.390, 13.375]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "corridor_agumbe_kudremukh",
+      "properties": {
+        "name": "Agumbe-Kudremukh Riparian Pathway",
+        "risk": "low",
+        "reason": "Continuous dense evergreen canopy with zero recent fire anomalies."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [75.090, 13.480],
+          [75.120, 13.410],
+          [75.160, 13.330],
+          [75.190, 13.260]
+        ]
+      }
+    }
+  ]
+}

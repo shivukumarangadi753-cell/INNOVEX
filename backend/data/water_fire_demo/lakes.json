@@ -1,0 +1,52 @@
+{
+  "lakes": [
+    {
+      "id": "lake_lakya_dam",
+      "name": "Lakya Dam Reservoir (Kudremukh)",
+      "centroid": {
+        "lat": 13.255,
+        "lng": 75.253
+      },
+      "data_mode": "demo",
+      "trend": {
+        "lake_id": "lake_lakya_dam",
+        "name": "Lakya Dam Reservoir (Kudremukh)",
+        "points": [
+          {"date": "2026-05-15T00:00:00Z", "area_ha": 252.4},
+          {"date": "2026-06-30T00:00:00Z", "area_ha": 268.1},
+          {"date": "2026-08-15T00:00:00Z", "area_ha": 274.0},
+          {"date": "2026-09-30T00:00:00Z", "area_ha": 245.8},
+          {"date": "2026-10-31T00:00:00Z", "area_ha": 218.2},
+          {"date": "2026-11-20T00:00:00Z", "area_ha": 184.6}
+        ],
+        "change_pct": -24.78,
+        "warning": true,
+        "data_mode": "demo"
+      }
+    },
+    {
+      "id": "lake_bhadra_backwaters",
+      "name": "Bhadra River Backwaters",
+      "centroid": {
+        "lat": 13.310,
+        "lng": 75.385
+      },
+      "data_mode": "demo",
+      "trend": {
+        "lake_id": "lake_bhadra_backwaters",
+        "name": "Bhadra River Backwaters",
+        "points": [
+          {"date": "2026-05-15T00:00:00Z", "area_ha": 410.0},
+          {"date": "2026-06-30T00:00:00Z", "area_ha": 435.5},
+          {"date": "2026-08-15T00:00:00Z", "area_ha": 448.2},
+          {"date": "2026-09-30T00:00:00Z", "area_ha": 420.1},
+          {"date": "2026-10-31T00:00:00Z", "area_ha": 395.0},
+          {"date": "2026-11-20T00:00:00Z", "area_ha": 382.4}
+        ],
+        "change_pct": -6.73,
+        "warning": false,
+        "data_mode": "demo"
+      }
+    }
+  ]
+}
