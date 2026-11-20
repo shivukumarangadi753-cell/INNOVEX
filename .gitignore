@@ -53,3 +53,4 @@ lerna-debug.log*
 /backend/data/*.tif
 /backend/static/alerts/*.png
 backend/ml/model.joblib
+frontend/dist/
