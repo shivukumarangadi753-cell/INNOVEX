@@ -1,0 +1,37 @@
+{
+  "type": "Feature",
+  "properties": {
+    "id": "kudremukh",
+    "name": "Kudremukh National Park & Reserve Forest",
+    "state": "Karnataka",
+    "note": "DEMO DATA: Simplified boundary for demo purposes",
+    "area_ha": 784.0
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          75.206,
+          13.165999999999999
+        ],
+        [
+          75.23400000000001,
+          13.165999999999999
+        ],
+        [
+          75.23400000000001,
+          13.193999999999999
+        ],
+        [
+          75.206,
+          13.193999999999999
+        ],
+        [
+          75.206,
+          13.165999999999999
+        ]
+      ]
+    ]
+  }
+}

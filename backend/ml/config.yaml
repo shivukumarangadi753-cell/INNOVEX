@@ -1,0 +1,22 @@
+# PRAKRITI-NETRA Change Detector Configuration
+# Central source of truth for detection thresholds
+
+thresholds:
+  dndvi_threshold: -0.25          # Vegetation loss threshold (dNDVI < -0.25)
+  vh_drop_db_threshold: 3.0       # SAR structure loss threshold (VH drop > 3.0 dB)
+  dnbr_fire_threshold: -0.30      # Burn severity threshold (dNBR < -0.30)
+  min_patch_ha: 0.5               # Minimum patch size to alert (50 px at 10m grid)
+  filter_inside_reserve: true     # Strictly alert only inside reserve boundary
+  same_season_baseline: true      # Enforce comparable seasonal baseline
+
+classification:
+  labels:
+    - clearing
+    - fire_scar
+    - seasonal
+    - cloud_error
+  min_confidence: 0.60
+
+scl:
+  cloud_classes: [3, 8, 9, 10, 11]  # 3: shadow, 8: cloud med, 9: cloud high, 10: cirrus, 11: snow
+  valid_classes: [4, 5, 6, 7]       # 4: vegetation, 5: bare soil, 6: water, 7: unclassified
