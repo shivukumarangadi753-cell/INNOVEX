@@ -5,6 +5,7 @@ import { ToastProvider } from './components/Toast';
 import { DemoRibbon } from './components/DemoRibbon';
 import { TopBar } from './components/TopBar';
 import { Navigation } from './components/Navigation';
+import { CopilotWidget } from './components/CopilotWidget';
 
 // Main Pages
 import Overview from './pages/Overview';
@@ -63,6 +64,9 @@ export const App: React.FC = () => {
               </Routes>
             </main>
           </div>
+
+          {/* Prakriti-Copilot Autonomous Ecological AI Agent Floating Widget */}
+          <CopilotWidget />
         </div>
       </ToastProvider>
     </BrowserRouter>

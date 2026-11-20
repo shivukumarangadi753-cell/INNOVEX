@@ -223,4 +223,48 @@ export const api = {
       body: JSON.stringify(body),
     });
   },
+
+  async sendCopilotMessage(message: string, language: string = 'en', context?: any): Promise<any> {
+    if (USE_MOCK) {
+      const msg = message.toLowerCase();
+      if (msg.includes('lake') || msg.includes('water') || msg.includes('kavoor')) {
+        return {
+          reply: `💧 **Waterbody Telemetry Analysis**:\n\nThe lake with the steepest depletion is **Lakya Dam Reservoir (Kudremukh)**.\n\n* **Surface Area Depletion**: \`- 24.78%\` over the monitored seasonal window.\n* **Current Water Spread**: \`184.6 ha\` (Critical warning threshold: >15% drop exceeded).\n* **Second Affected**: **Kavoor Lake (Mangalore)** with \`1.5 ha\` shoreline infill and weed choking.\n* **Recommendation**: Issue immediate dredging moratorium and monitor inflow sluices.`,
+          intent: 'lake_trend',
+          actions: [{ type: 'navigate', label: 'Open Water Watch', target: '/water' }],
+          voice_script: 'Satellite observation indicates Lakya Dam has suffered a 24.8 percent water spread loss, and Kavoor Lake in Mangalore is facing shoreline encroachment.',
+          suggested_questions: ['Draft legal notice for Kavoor lake', 'Calculate carbon loss for Mangalore mangrove clearing', 'Show alert summary']
+        };
+      }
+      if (msg.includes('fir') || msg.includes('legal') || msg.includes('notice')) {
+        return {
+          reply: `⚖️ **Automated Legal Notice & Preliminary Offence Report (FIR)**:\n\nOfficial legal document generated under **Section 26 of the Indian Forest Act, 1927**:\n\n\`\`\`text\n================================================================================\n                    GOVERNMENT OF KARNATAKA - FOREST DEPARTMENT\n                       OFFICE OF THE RANGE FOREST OFFICER\n                 MANGALURU TERRITORIAL DIVISION, DAKSHINA KANNADA\n================================================================================\nCASE CRIME NO: FCR-2026-ALT-MNG-001\nOFFENCE: Illegal clearing of 2.8 ha Coastal Wetland Mangroves\nSECTIONS: Indian Forest Act Sec 26(1)(a), (h); CRZ Notification 2019 Sec 3(1)\nEVIDENCE: Bi-temporal Copernicus Sentinel-2 MSI (Oct 15 - Nov 18, 2025)\nACTION: Seizure of earth-moving excavators and filing before JMFC Magistrate\n================================================================================\n\`\`\``,
+          intent: 'fir_draft',
+          actions: [{ type: 'copy_fir', label: 'Copy FIR Text' }, { type: 'dispatch_telegram', label: 'Dispatch to Telegram' }],
+          voice_script: 'First Information Report successfully generated for case FCR 2026 under Section 26 of the Indian Forest Act.',
+          suggested_questions: ['Calculate carbon penalty for this case', 'Dispatch alert to patrol Telegram', 'Show lake status']
+        };
+      }
+      if (msg.includes('carbon') || msg.includes('co2') || msg.includes('penalty') || msg.includes('fine')) {
+        return {
+          reply: `🌿 **Carbon Stock & Ecological Damage Assessment**:\n\n* **Target Alert**: \`Gurupura Estuary Tannirbhavi Mangroves\` (2.8 ha)\n* **Trees Felled**: ~\`1,260 mature mangrove trees\`\n* **Biomass Lost**: \`392.0 metric tons\`\n* **Carbon Emitted**: **\`1,438.2 tCO₂ equivalent\`**\n* **Supreme Court NPV Legal Penalty**: **\`₹29.40 Lakhs\`** (calculated at ₹10.5L/ha under Supreme Court of India guidelines).`,
+          intent: 'carbon_loss',
+          actions: [{ type: 'inspect_alert', label: 'Inspect Alert Imagery', target: '/alerts' }],
+          voice_script: 'Analysis shows an estimated 1,438 metric tons of CO2 emitted, with an environmental compensation penalty of 29.4 Lakh rupees.',
+          suggested_questions: ['Draft legal FIR for this alert', 'Dispatch to Telegram', 'Which lake lost the most water?']
+        };
+      }
+      return {
+        reply: `🛰️ **Prakriti Autonomous Ecological Briefing**:\n\nActive surveillance covers **Kudremukh National Park** and the **Mangaluru Coastal Eco-Zone**:\n\n* **Total Satellite Alerts**: \`6 detected\` (\`5 open for patrol audit\`).\n* **Mangaluru Incidents**: \`3 critical alerts\` (Tannirbhavi Mangroves, Kavoor Lake, Pilikula Eco-Park).\n* **Total Canopy Lost**: **\`16.8 hectares\`**.\n* **Revisit Cadence**: 5-day Sentinel-2 optical & 6-day Sentinel-1 SAR radar active.\n\nHow would you like to proceed, Officer?`,
+        intent: 'alert_inquiry',
+        actions: [{ type: 'navigate', label: 'Inspect Alerts', target: '/alerts' }, { type: 'navigate', label: 'Open Forest Watch', target: '/forest' }],
+        voice_script: 'Autonomous briefing: Surveillance active over Kudremukh and Mangalore. 5 alerts open for patrol inspection.',
+        suggested_questions: ['Which lake in Mangalore lost the most water?', 'Calculate carbon loss for Tannirbhavi mangrove', 'Draft legal FIR for Pilikula clearing']
+      };
+    }
+    return fetchJson<any>('/api/copilot/chat', {
+      method: 'POST',
+      body: JSON.stringify({ message, language, context }),
+    });
+  },
 };
