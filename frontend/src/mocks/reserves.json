@@ -1,0 +1,34 @@
+[
+  {
+    "id": "res-kudremukh",
+    "name": "Kudremukh Reserve Forest & National Park (Western Ghats)",
+    "boundary": {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [75.1800, 13.1500],
+            [75.2400, 13.1400],
+            [75.3200, 13.1700],
+            [75.3500, 13.2300],
+            [75.3200, 13.2900],
+            [75.2500, 13.3100],
+            [75.1900, 13.2700],
+            [75.1700, 13.2000],
+            [75.1800, 13.1500]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "res-kudremukh",
+        "name": "Kudremukh Reserve Forest",
+        "state": "Karnataka",
+        "district": "Chikkamagaluru",
+        "area_sq_km": 600.32,
+        "ecozone": "Western Ghats UNESCO World Heritage"
+      }
+    },
+    "is_official": false
+  }
+]

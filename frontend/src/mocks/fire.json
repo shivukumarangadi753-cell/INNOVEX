@@ -1,0 +1,48 @@
+{
+  "hotspots": [
+    {
+      "id": "fire-01",
+      "lat": 13.1942,
+      "lng": 75.2810,
+      "brightness": 348.6,
+      "confidence": 88,
+      "acq_datetime": "2026-11-19T08:45:00Z",
+      "data_mode": "demo"
+    },
+    {
+      "id": "fire-02",
+      "lat": 13.2750,
+      "lng": 75.3350,
+      "brightness": 315.2,
+      "confidence": 64,
+      "acq_datetime": "2026-11-19T08:45:00Z",
+      "data_mode": "demo"
+    }
+  ],
+  "burn_scars": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [75.2780, 13.1920],
+              [75.2840, 13.1925],
+              [75.2845, 13.1965],
+              [75.2790, 13.1960],
+              [75.2780, 13.1920]
+            ]
+          ]
+        },
+        "properties": {
+          "id": "scar-01",
+          "area_ha": 5.1,
+          "severity": "high",
+          "mapped_date": "2026-11-17"
+        }
+      }
+    ]
+  }
+}

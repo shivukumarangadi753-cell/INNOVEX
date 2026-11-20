@@ -1,0 +1,40 @@
+{
+  "title": "Satellite Surveillance Overview",
+  "subtitle": "Near real-time optical and radar telemetry for Kudremukh Reserve Forest & Bhadra River Catchment",
+  "kpis": {
+    "openAlerts": "Open Alerts",
+    "openAlertsSub": "Requires on-ground field inspection",
+    "openAlertsTip": "Unresolved canopy disruptions detected by Sentinel-2 difference algorithms.",
+    "flaggedArea": "Flagged This Month",
+    "flaggedAreaSub": "Across Kudremukh reserve zone",
+    "flaggedAreaTip": "Total estimated surface hectares with significant biomass or canopy change.",
+    "fireHotspots": "Active Fire Hotspots",
+    "fireHotspotsSub": "NASA FIRMS 24-hour pass",
+    "fireHotspotsTip": "Thermal anomalies detected at 375m resolution by VIIRS/MODIS sensors.",
+    "waterStress": "Water-Stress Index",
+    "waterStressSub": "Lakhya & Bhadra catchment",
+    "waterStressTip": "Computed from multi-temporal surface water spread and CGWB well depth proxies."
+  },
+  "map": {
+    "title": "Western Ghats Spatial Overview",
+    "subtitle": "Kudremukh National Park boundary with prioritized alert polygons",
+    "legendReserve": "Reserve Boundary",
+    "legendClearing": "Canopy Clearing",
+    "legendFire": "Fire Anomaly",
+    "legendWater": "Surface Water",
+    "clickAlert": "Click an alert marker to inspect details"
+  },
+  "actionsCard": {
+    "title": "What should I do today?",
+    "subtitle": "Prioritized field interventions ranked by satellite confidence and spatial proximity",
+    "action1Title": "Dispatch ground patrol to Kudremukh South Range",
+    "action1Desc": "2.4 ha canopy opening flagged with 92% satellite confidence. Suspected clearing near boundary marker 14.",
+    "action1Btn": "Inspect Alert",
+    "action2Title": "Verify eastern buffer thermal anomaly",
+    "action2Desc": "5.1 ha grass burn scar detected. Confirm fire containment with local range officer.",
+    "action2Btn": "View Fire Details",
+    "action3Title": "Audit Lakhya Reservoir surface shrinkage",
+    "action3Desc": "Water spread contracted 17.1% over monsoon peak baseline. Trigger catchment review.",
+    "action3Btn": "Open Water Watch"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "title": "Forest Watch & Canopy Loss Tracking",
+  "subtitle": "Bi-temporal Sentinel-2 MSI & Sentinel-1 SAR change detection for Kudremukh Reserve Forest",
+  "layers": {
+    "title": "Satellite Layers",
+    "ndvi": "NDVI Difference (Vegetation Health)",
+    "ndviTip": "Normalized Difference Vegetation Index compares Red and Near-Infrared reflectance to measure photosynthetic canopy density.",
+    "change": "Canopy Change Mask",
+    "changeTip": "Thresholded optical difference isolating sudden canopy drop above 0.5 ha.",
+    "radar": "Sentinel-1 Radar SAR (All-weather)",
+    "radarTip": "Synthetic Aperture Radar backscatter penetrates cloud cover during Western Ghats monsoons."
+  },
+  "slider": {
+    "title": "Draggable Before / After Visual Comparison",
+    "subtitle": "Drag the slider to compare Sentinel-2 Level-2A imagery across orbital passes",
+    "passT1": "Pass T1: Nov 06, 2026 (Pre-event baseline)",
+    "passT2": "Pass T2: Nov 18, 2026 (Disruption flagged)",
+    "instructions": "Drag slider horizontally or use arrow keys to inspect the canopy change boundary."
+  },
+  "pipeline": {
+    "title": "6-Step Satellite Processing Pipeline",
+    "subtitle": "How Prakriti-Netra converts raw Copernicus open data into actionable field alerts",
+    "status": "Pipeline Status: Active (Last pass processed 4 hours ago)",
+    "step1Title": "1. FETCH",
+    "step1Desc": "Poll Copernicus Open Data Space API for new Sentinel-2 MSI and Sentinel-1 SAR passes covering Kudremukh tile 43PGK.",
+    "step2Title": "2. CLEAN",
+    "step2Desc": "Apply Cloud & Snow mask using SCL band (Scene Classification) to eliminate false shadows from monsoon clouds.",
+    "step3Title": "3. COMPARE",
+    "step3Desc": "Compute bi-temporal differential NDVI (ΔNDVI = NDVI_T2 - NDVI_T1) and SAR co-polarization backscatter shift.",
+    "step4Title": "4. FILTER",
+    "step4Desc": "Eliminate sub-pixel noise and seasonal deciduous fluctuations using spatial morphology filters (> 0.5 hectare min area).",
+    "step5Title": "5. CLASSIFY",
+    "step5Desc": "Machine learning model predicts anomaly class: illegal clearing, fire scar, seasonal shedding, or residual cloud error.",
+    "step6Title": "6. ALERT",
+    "step6Desc": "Publish geocoded alert with centroid GPS, confidence rating, and dispatch push notification to forest guard Telegram bot."
+  }
+}

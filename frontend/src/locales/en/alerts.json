@@ -1,0 +1,48 @@
+{
+  "title": "Alerts Management & Ground Dispatch",
+  "subtitle": "Review, ground-truth, and dispatch official notifications to range officers",
+  "filters": {
+    "all": "All Alerts",
+    "open": "Open",
+    "confirmed": "Confirmed",
+    "falseAlarm": "False Alarms",
+    "sortBy": "Sort By",
+    "sortDate": "Detection Date (Newest)",
+    "sortArea": "Area (Largest First)",
+    "sortConfidence": "Confidence Score"
+  },
+  "table": {
+    "id": "Alert ID",
+    "reserve": "Protected Reserve",
+    "type": "Anomaly Type",
+    "area": "Impacted Area",
+    "confidence": "Confidence",
+    "detected": "Detected",
+    "status": "Status",
+    "actions": "Actions"
+  },
+  "drawer": {
+    "title": "Alert Detail & Review",
+    "coordinates": "Centroid Coordinates",
+    "openMaps": "Open in Google Maps",
+    "confidenceExplainer": "Confidence is estimated using spectral gradient and spatial cluster compactness.",
+    "passDates": "Orbital Acquisition Timestamps",
+    "pass1": "Pass T1 (Before)",
+    "pass2": "Pass T2 (After)",
+    "reviewHeading": "Field Ground-Truthing Decision",
+    "btnConfirm": "Confirm Clearing",
+    "btnFalseAlarm": "Mark False Alarm",
+    "btnTelegram": "Send to Telegram",
+    "telegramDesc": "Dispatches instant geocoded card with satellite coordinates to Western Ghats Field Rangers Telegram channel."
+  },
+  "toasts": {
+    "confirmSuccess": "Alert Confirmed",
+    "confirmMsg": "Alert has been marked as confirmed clearing and filed for patrol audit.",
+    "falseAlarmSuccess": "Marked as False Alarm",
+    "falseAlarmMsg": "Alert updated. Model feedback loop will incorporate this sample.",
+    "telegramSuccess": "Telegram Alert Dispatched",
+    "telegramMsg": "Notification sent successfully to field patrol channel.",
+    "errorTitle": "Operation Failed",
+    "errorMsg": "Unable to complete request. Please check network connection."
+  }
+}
