@@ -363,8 +363,8 @@ export const Alerts: React.FC = () => {
                 <span className="text-[11px] text-slate-500">Sentinel-2 L2A</span>
               </div>
               <ImageSlider
-                beforeImage={selectedAlert.before_image_url}
-                afterImage={selectedAlert.after_image_url}
+                beforeImage={`${selectedAlert.before_image_url}?v=20261121_highres`}
+                afterImage={`${selectedAlert.after_image_url}?v=20261121_highres`}
                 beforeLabel={t('drawer.pass1', 'Pass T1 (Before)')}
                 afterLabel={t('drawer.pass2', 'Pass T2 (After)')}
               />

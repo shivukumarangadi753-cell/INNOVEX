@@ -209,12 +209,12 @@ export const ForestWatch: React.FC = () => {
             <div className="mt-3">
               <ImageSlider
                 beforeImage={
-                  selectedAlert?.before_image_url ||
-                  '/static/alerts/alert-001_before.png'
+                  (selectedAlert?.before_image_url ||
+                  '/static/alerts/alert-001_before.png') + '?v=20261121_highres'
                 }
                 afterImage={
-                  selectedAlert?.after_image_url ||
-                  '/static/alerts/alert-001_after.png'
+                  (selectedAlert?.after_image_url ||
+                  '/static/alerts/alert-001_after.png') + '?v=20261121_highres'
                 }
                 beforeLabel={
                   selectedAlert?.pass_t1
