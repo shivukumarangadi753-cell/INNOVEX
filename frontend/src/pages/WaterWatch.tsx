@@ -113,30 +113,30 @@ export const WaterWatch: React.FC = () => {
 
       {/* Drying-Lake Early Warning Banner (Appears when warning === true) */}
       {lakeTrend?.warning && (
-        <div className="relative overflow-hidden rounded-xl border-2 border-rust bg-red-50/90 p-5 shadow-subtle">
+        <div className="relative overflow-hidden rounded-2xl border-2 border-rust bg-gradient-to-r from-red-50 via-red-50/90 to-amber-50/50 dark:from-rust/20 dark:to-navy-dark p-5 shadow-card animate-in fade-in-50 duration-200">
           <div className="flex items-start gap-4">
-            <div className="rounded-lg bg-rust p-2.5 text-white shadow-sm flex-shrink-0">
+            <div className="rounded-xl bg-gradient-to-br from-rust to-rust-dark p-2.5 text-white shadow-md flex-shrink-0">
               <AlertOctagon className="w-6 h-6 animate-bounce" />
             </div>
             <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <h3 className="text-base font-bold text-rust">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="text-base font-extrabold text-rust dark:text-red-400">
                   {t('earlyWarningTitle')}
                 </h3>
                 <Chip variant="open" size="sm" label="CRITICAL SHRINKAGE" />
               </div>
-              <p className="text-xs text-slate-800 mt-1 leading-relaxed">
+              <p className="text-xs text-slate-800 dark:text-slate-200 mt-1 leading-relaxed font-medium">
                 {t('earlyWarningMessage', { pct: Math.abs(lakeTrend.change_pct).toFixed(1) })}
               </p>
-              <div className="mt-3 flex flex-wrap items-center gap-4 text-xs font-medium text-slate-700">
-                <span className="flex items-center gap-1.5 bg-white/80 px-2.5 py-1 rounded-md border border-red-200">
+              <div className="mt-3 flex flex-wrap items-center gap-3 text-xs font-semibold text-slate-700 dark:text-slate-300">
+                <span className="flex items-center gap-1.5 bg-white/90 dark:bg-navy-dark px-3 py-1 rounded-full border border-red-200 dark:border-red-900/50 shadow-2xs">
                   <TrendingDown className="w-3.5 h-3.5 text-rust" />
-                  Net Change: <strong>{lakeTrend.change_pct}%</strong>
+                  Net Change: <strong className="text-rust">{lakeTrend.change_pct}%</strong>
                 </span>
-                <span className="bg-white/80 px-2.5 py-1 rounded-md border border-red-200">
-                  Target Water Body: <strong>{lakeTrend.name}</strong>
+                <span className="bg-white/90 dark:bg-navy-dark px-3 py-1 rounded-full border border-red-200 dark:border-red-900/50 shadow-2xs">
+                  Target Water Body: <strong className="text-navy dark:text-cream">{lakeTrend.name}</strong>
                 </span>
-                <span className="text-red-700 font-semibold underline decoration-rust cursor-pointer">
+                <span className="text-red-700 dark:text-red-300 font-semibold underline decoration-rust cursor-pointer">
                   Recommend immediate ground verification by local irrigation authorities.
                 </span>
               </div>

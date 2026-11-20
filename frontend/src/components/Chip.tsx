@@ -128,12 +128,12 @@ export const Chip: React.FC<ChipProps> = ({
 
   const sizeClasses =
     size === 'sm'
-      ? 'text-[11px] px-2 py-0.5 gap-1'
-      : 'text-xs px-2.5 py-1 gap-1.5';
+      ? 'text-[11px] px-2 py-0.5 gap-1 font-medium'
+      : 'text-xs px-2.5 py-0.5 gap-1.5 font-medium';
 
   return (
     <span
-      className={`inline-flex items-center rounded-md border select-none transition-colors ${sizeClasses} ${colorClasses} ${className}`}
+      className={`inline-flex items-center rounded-full border select-none transition-all duration-150 shadow-2xs ${sizeClasses} ${colorClasses} ${className}`}
       {...props}
     >
       {defaultIcon}

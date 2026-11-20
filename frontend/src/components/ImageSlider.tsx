@@ -40,7 +40,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative select-none overflow-hidden rounded-xl bg-slate-950 aspect-video shadow-md ${className}`}
+      className={`relative select-none overflow-hidden rounded-2xl bg-slate-950 aspect-video shadow-card border border-slate-200/40 ${className}`}
       onMouseMove={handleMouseMove}
       onMouseDown={() => setIsDragging(true)}
       onMouseUp={() => setIsDragging(false)}
@@ -53,7 +53,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
         alt={afterLabel}
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
       />
-      <div className="absolute top-3 right-3 bg-rust/90 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-sm">
+      <div className="absolute top-3 right-3 bg-rust/90 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm tracking-wide">
         {afterLabel}
       </div>
 
@@ -67,7 +67,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
           alt={beforeLabel}
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute top-3 left-3 bg-forest/90 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-sm">
+        <div className="absolute top-3 left-3 bg-forest/90 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm tracking-wide">
           {beforeLabel}
         </div>
       </div>
@@ -77,7 +77,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
         className="absolute top-0 bottom-0 w-1 bg-white shadow-2xl cursor-ew-resize flex items-center justify-center -translate-x-1/2"
         style={{ left: `${sliderPosition}%` }}
       >
-        <div className="w-8 h-8 rounded-full bg-navy text-white flex items-center justify-center shadow-lg border-2 border-white">
+        <div className="w-8 h-8 rounded-full bg-navy text-white flex items-center justify-center shadow-float border-2 border-white hover:scale-110 transition-transform">
           <ChevronsLeftRight className="w-4 h-4" />
         </div>
       </div>

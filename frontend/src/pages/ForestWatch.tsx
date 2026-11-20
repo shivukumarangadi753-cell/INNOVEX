@@ -98,16 +98,16 @@ export const ForestWatch: React.FC = () => {
         </div>
 
         {/* T1 / T2 Pass Toggle */}
-        <div className="flex items-center gap-2 bg-cream-50 p-1.5 rounded-xl border border-slate-200 self-start sm:self-auto">
-          <Calendar className="w-4 h-4 text-navy ml-1.5" />
-          <span className="text-xs font-semibold text-slate-700 mr-1">Satellite Pass:</span>
+        <div className="flex items-center gap-1.5 bg-cream-50 dark:bg-navy-dark p-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 self-start sm:self-auto shadow-xs">
+          <Calendar className="w-4 h-4 text-navy dark:text-cream ml-1.5" />
+          <span className="text-xs font-bold text-slate-700 dark:text-slate-300 mr-1">Satellite Pass:</span>
           <button
             type="button"
             onClick={() => setCurrentPass('T1')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-150 ${
               currentPass === 'T1'
-                ? 'bg-forest text-white shadow-sm'
-                : 'text-slate-600 hover:text-navy hover:bg-slate-100'
+                ? 'bg-gradient-to-r from-forest to-forest-dark text-white shadow-sm'
+                : 'text-slate-600 dark:text-slate-400 hover:text-navy hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
           >
             T1 (Nov 06)
@@ -115,10 +115,10 @@ export const ForestWatch: React.FC = () => {
           <button
             type="button"
             onClick={() => setCurrentPass('T2')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-150 ${
               currentPass === 'T2'
-                ? 'bg-rust text-white shadow-sm'
-                : 'text-slate-600 hover:text-navy hover:bg-slate-100'
+                ? 'bg-gradient-to-r from-rust to-rust-dark text-white shadow-sm'
+                : 'text-slate-600 dark:text-slate-400 hover:text-navy hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
           >
             T2 (Nov 18 - Flagged)
@@ -144,13 +144,13 @@ export const ForestWatch: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => toggleLayer('ndvi')}
-                  className={`text-xs px-2.5 py-1.5 rounded-lg font-medium border flex items-center gap-1 transition-colors ${
+                  className={`text-xs px-2.5 py-1.5 rounded-lg font-semibold border flex items-center gap-1.5 transition-all shadow-2xs ${
                     layers.ndvi
                       ? 'bg-forest-bg text-forest-dark border-forest/40'
-                      : 'bg-white text-slate-500 border-slate-200'
+                      : 'bg-white text-slate-500 border-slate-200 hover:bg-slate-50'
                   }`}
                 >
-                  <span className={`w-2 h-2 rounded-full ${layers.ndvi ? 'bg-forest' : 'bg-slate-300'}`} />
+                  <span className={`w-2 h-2 rounded-full ${layers.ndvi ? 'bg-forest ring-2 ring-forest/30' : 'bg-slate-300'}`} />
                   NDVI Difference
                   <Tooltip term="NDVI" text={t('layers.ndviTip', 'Normalized Difference Vegetation Index compares Red and Near-Infrared reflectance.')} />
                 </button>
@@ -158,13 +158,13 @@ export const ForestWatch: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => toggleLayer('change')}
-                  className={`text-xs px-2.5 py-1.5 rounded-lg font-medium border flex items-center gap-1 transition-colors ${
+                  className={`text-xs px-2.5 py-1.5 rounded-lg font-semibold border flex items-center gap-1.5 transition-all shadow-2xs ${
                     layers.change
                       ? 'bg-rust-bg text-rust-dark border-rust/40'
-                      : 'bg-white text-slate-500 border-slate-200'
+                      : 'bg-white text-slate-500 border-slate-200 hover:bg-slate-50'
                   }`}
                 >
-                  <span className={`w-2 h-2 rounded-full ${layers.change ? 'bg-rust' : 'bg-slate-300'}`} />
+                  <span className={`w-2 h-2 rounded-full ${layers.change ? 'bg-rust ring-2 ring-rust/30' : 'bg-slate-300'}`} />
                   Change Mask
                   <Tooltip term="Canopy Mask" text={t('layers.changeTip', 'Thresholded difference isolating sudden drop in canopy.')} />
                 </button>
@@ -172,13 +172,13 @@ export const ForestWatch: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => toggleLayer('radar')}
-                  className={`text-xs px-2.5 py-1.5 rounded-lg font-medium border flex items-center gap-1 transition-colors ${
+                  className={`text-xs px-2.5 py-1.5 rounded-lg font-semibold border flex items-center gap-1.5 transition-all shadow-2xs ${
                     layers.radar
                       ? 'bg-teal-bg text-teal-dark border-teal/40'
-                      : 'bg-white text-slate-500 border-slate-200'
+                      : 'bg-white text-slate-500 border-slate-200 hover:bg-slate-50'
                   }`}
                 >
-                  <span className={`w-2 h-2 rounded-full ${layers.radar ? 'bg-teal' : 'bg-slate-300'}`} />
+                  <span className={`w-2 h-2 rounded-full ${layers.radar ? 'bg-teal ring-2 ring-teal/30' : 'bg-slate-300'}`} />
                   Radar SAR
                   <Tooltip term="Sentinel-1 SAR" text={t('layers.radarTip', 'Synthetic Aperture Radar backscatter penetrates cloud cover during monsoons.')} />
                 </button>
@@ -268,11 +268,13 @@ export const ForestWatch: React.FC = () => {
       </div>
 
       {/* 6-Step Satellite Processing Pipeline Section */}
-      <Card className="border-t-4 border-t-forest">
-        <CardHeader className="flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+      <Card className="border-t-4 border-t-forest shadow-card">
+        <CardHeader className="flex-col sm:flex-row sm:items-center sm:justify-between gap-2 bg-gradient-to-r from-cream-50/70 to-white dark:from-navy-surface dark:to-navy-dark">
           <div>
             <div className="flex items-center gap-2">
-              <Zap className="w-5 h-5 text-forest" />
+              <span className="p-1.5 rounded-lg bg-forest/15 text-forest border border-forest/30">
+                <Zap className="w-5 h-5 text-forest" />
+              </span>
               <CardTitle className="text-lg">{t('pipeline.title', '6-Step Satellite Processing Pipeline')}</CardTitle>
             </div>
             <CardDescription className="mt-0.5">
@@ -280,29 +282,29 @@ export const ForestWatch: React.FC = () => {
             </CardDescription>
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-1 bg-forest-bg text-forest-dark border border-forest/30 rounded-full text-xs font-semibold">
+          <div className="flex items-center gap-2 px-3 py-1 bg-forest-bg text-forest-dark border border-forest/30 rounded-full text-xs font-bold shadow-xs">
             <Radio className="w-3.5 h-3.5 animate-pulse text-forest" />
             <span>{t('pipeline.status', 'Pipeline Status: Active (Last pass 4h ago)')}</span>
           </div>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="pt-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3">
             {steps.map((step) => (
               <div
                 key={step.num}
-                className="p-3.5 bg-white rounded-xl border border-slate-200 shadow-subtle flex flex-col justify-between hover:border-forest transition-colors"
+                className="p-4 bg-white dark:bg-navy-dark rounded-2xl border border-slate-200/90 dark:border-slate-700/80 shadow-subtle flex flex-col justify-between hover:border-forest hover:-translate-y-0.5 hover:shadow-card transition-all duration-200"
               >
                 <div>
-                  <div className="w-7 h-7 rounded-lg bg-forest text-white font-bold text-xs flex items-center justify-center mb-2 shadow-sm">
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-forest to-forest-dark text-white font-extrabold text-xs flex items-center justify-center mb-2.5 shadow-xs border border-forest-light/30">
                     {step.num}
                   </div>
-                  <h4 className="font-bold text-xs text-navy uppercase tracking-wide">{step.title}</h4>
-                  <p className="text-[11px] text-slate-600 mt-1.5 leading-relaxed">{step.desc}</p>
+                  <h4 className="font-bold text-xs text-navy dark:text-white uppercase tracking-wide">{step.title}</h4>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">{step.desc}</p>
                 </div>
 
-                <div className="pt-3 mt-3 border-t border-slate-100 flex items-center gap-1 text-[10px] text-forest font-semibold">
-                  <CheckCircle2 className="w-3 h-3" />
+                <div className="pt-3 mt-3 border-t border-slate-100 dark:border-slate-800 flex items-center gap-1 text-[10px] text-forest font-semibold">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
                   <span>Validated Step</span>
                 </div>
               </div>

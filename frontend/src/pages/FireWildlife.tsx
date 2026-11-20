@@ -226,23 +226,25 @@ export const FireWildlife: React.FC = () => {
       {/* Main Grid: Map & Details */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Map View Container */}
-        <Card className="lg:col-span-2 p-0 overflow-hidden flex flex-col min-h-[480px]">
-          <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-            <div className="flex items-center gap-2 text-sm font-semibold text-slate-700">
-              <Flame className="w-4 h-4 text-rust" />
+        <Card className="lg:col-span-2 p-0 overflow-hidden flex flex-col min-h-[480px] rounded-2xl border border-slate-200/90 shadow-card">
+          <div className="p-4 bg-gradient-to-r from-cream-50/70 to-white dark:from-navy-surface dark:to-navy-dark border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between">
+            <div className="flex items-center gap-2 text-sm font-bold text-navy dark:text-white">
+              <span className="p-1 rounded-md bg-rust/15 text-rust border border-rust/30">
+                <Flame className="w-4 h-4 text-rust" />
+              </span>
               <span>Interactive Surveillance Map</span>
             </div>
-            <div className="flex items-center gap-4 text-xs text-slate-600">
-              <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping inline-block" />
+            <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300 font-semibold">
+              <span className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full border border-slate-200/60 dark:border-slate-700">
+                <span className="w-2 h-2 rounded-full bg-red-600 animate-ping inline-block" />
                 Hotspots ({hotspots.length})
               </span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-3 h-2 rounded bg-rust/40 border border-rust inline-block" />
+              <span className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full border border-slate-200/60 dark:border-slate-700">
+                <span className="w-2.5 h-2 rounded bg-rust/40 border border-rust inline-block" />
                 Burn Scars ({burnScars.length})
               </span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-3 h-0.5 bg-forest inline-block" />
+              <span className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full border border-slate-200/60 dark:border-slate-700">
+                <span className="w-2.5 h-0.5 bg-forest inline-block" />
                 Corridors ({corridors.length})
               </span>
             </div>

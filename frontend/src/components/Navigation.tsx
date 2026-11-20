@@ -65,15 +65,16 @@ export const Navigation: React.FC = () => {
     <>
       {/* Desktop & Tablet Sidebar */}
       <aside className="hidden md:flex md:w-64 flex-col bg-white border-r border-slate-200/80 min-h-[calc(100vh-4rem)] p-4 shrink-0 shadow-subtle">
-        <div className="mb-4 px-3 py-2 bg-cream-50 rounded-xl border border-slate-200/60">
-          <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-            Target Eco-Zone
+        <div className="mb-4 p-3 bg-gradient-to-br from-cream-50 to-white rounded-xl border border-slate-200/70 shadow-xs">
+          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
+            <span>Target Eco-Zone</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-forest animate-ping" />
           </div>
-          <div className="text-xs font-bold text-navy mt-0.5">
+          <div className="text-xs font-extrabold text-navy mt-1">
             Kudremukh Reserve Forest
           </div>
-          <div className="text-[11px] text-forest font-medium flex items-center gap-1 mt-0.5">
-            <span className="w-2 h-2 rounded-full bg-forest animate-pulse" />
+          <div className="text-[11px] text-forest font-semibold flex items-center gap-1.5 mt-0.5">
+            <span className="w-2 h-2 rounded-full bg-forest" />
             Western Ghats, Karnataka
           </div>
         </div>
@@ -85,20 +86,22 @@ export const Navigation: React.FC = () => {
               to={item.to}
               end={item.to === '/'}
               className={({ isActive }) =>
-                `flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium transition-all duration-150 min-h-[44px] ${
+                `group flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 min-h-[44px] ${
                   isActive
-                    ? 'bg-forest text-white shadow-sm font-semibold'
-                    : 'text-slate-700 hover:bg-slate-100 hover:text-navy'
+                    ? 'bg-gradient-to-r from-forest to-forest-dark text-white shadow-md font-semibold'
+                    : 'text-slate-700 hover:bg-slate-100/80 hover:text-navy hover:translate-x-0.5'
                 }`
               }
             >
               <div className="flex items-center gap-3 min-w-0">
-                {item.icon}
+                <span className="transition-transform group-hover:scale-110 duration-150">
+                  {item.icon}
+                </span>
                 <span className="truncate">{item.label}</span>
               </div>
 
               {item.badge && (
-                <span className="px-2 py-0.5 text-xs font-bold rounded-full bg-rust text-white shadow-sm">
+                <span className="px-2 py-0.5 text-xs font-bold rounded-full bg-rust text-white shadow-xs">
                   {item.badge}
                 </span>
               )}
@@ -122,7 +125,7 @@ export const Navigation: React.FC = () => {
       {/* Mobile Bottom Tab Bar */}
       <nav
         aria-label="Mobile Bottom Navigation"
-        className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-200 px-2 py-1 flex items-center justify-around shadow-float"
+        className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 glass-nav border-t border-slate-200 px-2 py-1 flex items-center justify-around shadow-float"
       >
         {navItems.map((item) => (
           <NavLink
@@ -130,9 +133,9 @@ export const Navigation: React.FC = () => {
             to={item.to}
             end={item.to === '/'}
             className={({ isActive }) =>
-              `flex flex-col items-center justify-center p-1.5 rounded-lg text-[10px] font-medium min-w-[48px] min-h-[48px] transition-colors relative ${
+              `flex flex-col items-center justify-center p-1.5 rounded-lg text-[10px] font-medium min-w-[48px] min-h-[48px] transition-all relative ${
                 isActive
-                  ? 'text-forest font-bold'
+                  ? 'text-forest font-bold scale-105'
                   : 'text-slate-500 hover:text-slate-900'
               }`
             }
@@ -140,7 +143,7 @@ export const Navigation: React.FC = () => {
             {item.icon}
             <span className="mt-0.5 leading-tight truncate max-w-[56px] text-center">{item.label}</span>
             {item.badge && (
-              <span className="absolute top-1 right-2 w-2 h-2 rounded-full bg-rust" />
+              <span className="absolute top-1 right-2 w-2 h-2 rounded-full bg-rust shadow-xs" />
             )}
           </NavLink>
         ))}

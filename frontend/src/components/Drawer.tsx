@@ -58,20 +58,20 @@ export const Drawer: React.FC<DrawerProps> = ({
       <div className="fixed inset-y-0 right-0 flex max-w-full pl-10 pointer-events-none">
         <div
           ref={drawerRef}
-          className={`w-screen ${widthStyles[width]} pointer-events-auto bg-white shadow-2xl flex flex-col transition-transform duration-200 ease-out`}
+          className={`w-screen ${widthStyles[width]} pointer-events-auto bg-white dark:bg-navy-dark shadow-2xl flex flex-col transition-transform duration-200 ease-out border-l border-slate-200/80 dark:border-slate-700/80`}
         >
           {/* Header */}
-          <div className="px-6 py-4 border-b border-slate-200 bg-cream-50 flex items-center justify-between">
+          <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-cream-50/80 dark:bg-navy-surface/80 flex items-center justify-between">
             <div>
-              <h2 id="drawer-title" className="text-lg font-bold text-navy">
+              <h2 id="drawer-title" className="text-lg font-extrabold text-navy dark:text-white">
                 {title}
               </h2>
-              {subtitle && <p className="text-xs text-slate-500 mt-0.5">{subtitle}</p>}
+              {subtitle && <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{subtitle}</p>}
             </div>
             <button
               type="button"
               onClick={onClose}
-              className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition-colors"
+              className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors"
               aria-label="Close panel"
             >
               <X className="w-5 h-5" />

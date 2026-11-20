@@ -168,25 +168,25 @@ export const Overview: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Map Section */}
         <div className="lg:col-span-2 space-y-4">
-          <Card className="overflow-hidden">
-            <CardHeader>
+          <Card className="overflow-hidden border border-slate-200/90 shadow-card">
+            <CardHeader className="bg-gradient-to-r from-cream-50/70 to-white dark:from-navy-surface dark:to-navy-dark">
               <div>
-                <CardTitle>{t('map.title', 'Western Ghats Spatial Overview')}</CardTitle>
+                <CardTitle className="text-base sm:text-lg">{t('map.title', 'Western Ghats Spatial Overview')}</CardTitle>
                 <CardDescription>
                   {t('map.subtitle', 'Kudremukh National Park boundary with prioritized alert polygons')}
                 </CardDescription>
               </div>
-              <span className="text-xs text-slate-500 hidden sm:inline">
+              <span className="text-xs text-slate-500 font-medium hidden sm:inline bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full border border-slate-200/60 dark:border-slate-700">
                 {t('map.clickAlert', 'Click an alert marker to inspect details')}
               </span>
             </CardHeader>
-            <div className="p-4">
+            <div className="p-4 bg-slate-50/50 dark:bg-navy-surface/50">
               <ReserveMap
                 reserve={reserve || undefined}
                 alerts={alerts}
                 selectedAlertId={selectedAlert?.id}
                 onSelectAlert={(a) => setSelectedAlert(a)}
-                className="h-[440px]"
+                className="h-[440px] rounded-xl overflow-hidden shadow-inner border border-slate-200/80 dark:border-slate-700/80"
               />
             </div>
           </Card>
@@ -194,11 +194,13 @@ export const Overview: React.FC = () => {
 
         {/* "What should I do today?" Action Board */}
         <div className="space-y-4">
-          <Card className="h-full flex flex-col border-t-4 border-t-navy">
-            <CardHeader>
+          <Card className="h-full flex flex-col border-t-4 border-t-navy shadow-card">
+            <CardHeader className="bg-gradient-to-r from-cream-50/70 to-white dark:from-navy-surface dark:to-navy-dark">
               <div>
                 <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-forest" />
+                  <span className="p-1.5 rounded-lg bg-forest/15 text-forest border border-forest/30">
+                    <ShieldCheck className="w-5 h-5 text-forest" />
+                  </span>
                   <CardTitle className="text-lg">
                     {t('actionsCard.title', 'What should I do today?')}
                   </CardTitle>
@@ -209,12 +211,12 @@ export const Overview: React.FC = () => {
               </div>
             </CardHeader>
 
-            <CardContent className="flex-1 space-y-4">
+            <CardContent className="flex-1 space-y-4 pt-4">
               {/* Action Item 1: Open clearing */}
-              <div className="p-4 rounded-xl border border-rust/40 bg-rust-bg space-y-2.5 transition-all hover:shadow-sm">
+              <div className="p-4 rounded-2xl border border-rust/40 bg-gradient-to-br from-rust-bg to-rust-bg/40 space-y-2.5 transition-all hover:shadow-md hover:-translate-y-0.5">
                 <div className="flex items-center justify-between">
                   <Chip variant="clearing" size="sm" />
-                  <span className="text-[11px] font-bold text-rust">Priority 1 (Urgent)</span>
+                  <span className="text-[11px] font-bold text-rust tracking-wide uppercase bg-white/70 px-2 py-0.5 rounded-full border border-rust/20">Priority 1 (Urgent)</span>
                 </div>
                 <h4 className="font-bold text-sm text-slate-900 leading-snug">
                   {t('actionsCard.action1Title', 'Dispatch ground patrol to Kudremukh South Range')}
@@ -222,8 +224,8 @@ export const Overview: React.FC = () => {
                 <p className="text-xs text-slate-700 leading-relaxed">
                   {t('actionsCard.action1Desc', '2.4 ha canopy opening flagged with 92% satellite confidence. Suspected clearing near boundary marker 14.')}
                 </p>
-                <div className="pt-1 flex items-center justify-between">
-                  <span className="text-[11px] text-slate-500 font-mono">ID: alt-001 (92% conf.)</span>
+                <div className="pt-1 flex items-center justify-between border-t border-rust/20">
+                  <span className="text-[11px] text-slate-600 font-mono font-medium">ID: alt-001 (92% conf.)</span>
                   <Button
                     size="sm"
                     variant="danger"
@@ -235,10 +237,10 @@ export const Overview: React.FC = () => {
               </div>
 
               {/* Action Item 2: Fire hotspot */}
-              <div className="p-4 rounded-xl border border-amber/40 bg-amber-bg space-y-2.5 transition-all hover:shadow-sm">
+              <div className="p-4 rounded-2xl border border-amber/40 bg-gradient-to-br from-amber-bg to-amber-bg/40 space-y-2.5 transition-all hover:shadow-md hover:-translate-y-0.5">
                 <div className="flex items-center justify-between">
                   <Chip variant="fire_scar" size="sm" />
-                  <span className="text-[11px] font-bold text-amber-dark">Priority 2 (High)</span>
+                  <span className="text-[11px] font-bold text-amber-dark tracking-wide uppercase bg-white/70 px-2 py-0.5 rounded-full border border-amber/20">Priority 2 (High)</span>
                 </div>
                 <h4 className="font-bold text-sm text-slate-900 leading-snug">
                   {t('actionsCard.action2Title', 'Verify eastern buffer thermal anomaly')}
@@ -246,8 +248,8 @@ export const Overview: React.FC = () => {
                 <p className="text-xs text-slate-700 leading-relaxed">
                   {t('actionsCard.action2Desc', '5.1 ha grass burn scar detected. Confirm fire containment with local range officer.')}
                 </p>
-                <div className="pt-1 flex items-center justify-between">
-                  <span className="text-[11px] text-slate-500 font-mono">ID: alt-002 (87% conf.)</span>
+                <div className="pt-1 flex items-center justify-between border-t border-amber/20">
+                  <span className="text-[11px] text-slate-600 font-mono font-medium">ID: alt-002 (87% conf.)</span>
                   <Button
                     size="sm"
                     variant="outline"
@@ -259,10 +261,10 @@ export const Overview: React.FC = () => {
               </div>
 
               {/* Action Item 3: Lake shrinkage */}
-              <div className="p-4 rounded-xl border border-teal/40 bg-teal-bg space-y-2.5 transition-all hover:shadow-sm">
+              <div className="p-4 rounded-2xl border border-teal/40 bg-gradient-to-br from-teal-bg to-teal-bg/40 space-y-2.5 transition-all hover:shadow-md hover:-translate-y-0.5">
                 <div className="flex items-center justify-between">
                   <Chip variant="seasonal" label="Water Body" size="sm" />
-                  <span className="text-[11px] font-bold text-teal-dark">Priority 3 (Watch)</span>
+                  <span className="text-[11px] font-bold text-teal-dark tracking-wide uppercase bg-white/70 px-2 py-0.5 rounded-full border border-teal/20">Priority 3 (Watch)</span>
                 </div>
                 <h4 className="font-bold text-sm text-slate-900 leading-snug">
                   {t('actionsCard.action3Title', 'Audit Lakhya Reservoir surface shrinkage')}
@@ -270,8 +272,8 @@ export const Overview: React.FC = () => {
                 <p className="text-xs text-slate-700 leading-relaxed">
                   {t('actionsCard.action3Desc', 'Water spread contracted 17.1% over monsoon peak baseline. Trigger catchment review.')}
                 </p>
-                <div className="pt-1 flex items-center justify-between">
-                  <span className="text-[11px] text-slate-500 font-mono">Lake: Lakhya Wetland</span>
+                <div className="pt-1 flex items-center justify-between border-t border-teal/20">
+                  <span className="text-[11px] text-slate-600 font-mono font-medium">Lake: Lakhya Wetland</span>
                   <Button
                     size="sm"
                     variant="teal"

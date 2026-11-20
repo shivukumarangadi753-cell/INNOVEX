@@ -13,16 +13,16 @@ export const Card: React.FC<CardProps> = ({
   ...props
 }) => {
   const variantStyles = {
-    default: 'bg-white border border-slate-200/80 shadow-subtle',
-    flat: 'bg-cream-50 border border-slate-200/60',
-    outline: 'bg-transparent border-2 border-slate-300',
-    alert: 'bg-rust-bg border border-rust/30 shadow-subtle',
-    highlight: 'bg-forest-bg border border-forest/30 shadow-subtle',
+    default: 'bg-white border border-slate-200/90 shadow-card hover:shadow-card-hover',
+    flat: 'bg-cream-50/70 border border-slate-200/70',
+    outline: 'bg-transparent border-2 border-slate-300 dark:border-slate-700',
+    alert: 'bg-rust-bg/80 border border-rust/40 shadow-card',
+    highlight: 'bg-forest-bg/80 border border-forest/40 shadow-card',
   };
 
   return (
     <div
-      className={`rounded-xl transition-all duration-200 ${variantStyles[variant]} ${className}`}
+      className={`rounded-2xl transition-all duration-200 ${variantStyles[variant]} ${className}`}
       {...props}
     >
       {children}
