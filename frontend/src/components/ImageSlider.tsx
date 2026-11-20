@@ -12,8 +12,8 @@ interface ImageSliderProps {
 export const ImageSlider: React.FC<ImageSliderProps> = ({
   beforeImage,
   afterImage,
-  beforeLabel = 'Pass T1 (Before)',
-  afterLabel = 'Pass T2 (After)',
+  beforeLabel = 'Before (Nov 08, 2025)',
+  afterLabel = 'After (Nov 18, 2025)',
   className = '',
 }) => {
   const [sliderPosition, setSliderPosition] = useState(50);
@@ -40,7 +40,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative select-none overflow-hidden rounded-xl bg-slate-950 aspect-video shadow-md ${className}`}
+      className={`relative select-none overflow-hidden rounded-2xl bg-slate-950 aspect-[4/3] sm:aspect-video shadow-card border border-slate-200/60 dark:border-emerald-950/60 ${className}`}
       onMouseMove={handleMouseMove}
       onMouseDown={() => setIsDragging(true)}
       onMouseUp={() => setIsDragging(false)}
@@ -53,7 +53,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
         alt={afterLabel}
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
       />
-      <div className="absolute top-3 right-3 bg-rust/90 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-sm">
+      <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md text-white text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-white/20 shadow-sm pointer-events-none">
         {afterLabel}
       </div>
 
@@ -67,18 +67,18 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
           alt={beforeLabel}
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute top-3 left-3 bg-forest/90 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-sm">
+        <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-white/20 shadow-sm pointer-events-none">
           {beforeLabel}
         </div>
       </div>
 
-      {/* Slider Divider Bar */}
+      {/* Slider Divider Bar with Circular Drag Handle (Exact Reference Match) */}
       <div
-        className="absolute top-0 bottom-0 w-1 bg-white shadow-2xl cursor-ew-resize flex items-center justify-center -translate-x-1/2"
+        className="absolute top-0 bottom-0 w-[2px] bg-white/90 shadow-[0_0_10px_rgba(0,0,0,0.5)] cursor-ew-resize flex items-center justify-center -translate-x-1/2 z-10"
         style={{ left: `${sliderPosition}%` }}
       >
-        <div className="w-8 h-8 rounded-full bg-navy text-white flex items-center justify-center shadow-lg border-2 border-white">
-          <ChevronsLeftRight className="w-4 h-4" />
+        <div className="w-8 h-8 rounded-full bg-[#0b241e] text-white flex items-center justify-center shadow-xl border-2 border-white hover:scale-110 active:scale-95 transition-transform">
+          <ChevronsLeftRight className="w-4 h-4 text-emerald-400" />
         </div>
       </div>
 

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { Alert, Reserve } from '../lib/types';
-import { Layers, Maximize2, RotateCcw } from 'lucide-react';
+import { Layers, RotateCcw, Plus, Minus, Compass } from 'lucide-react';
 
 interface ReserveMapProps {
   reserve?: Reserve;
@@ -33,7 +33,13 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
   const mapInstance = useRef<maplibregl.Map | null>(null);
   const markersRef = useRef<maplibregl.Marker[]>([]);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [mapError, setMapError] = useState(false);
+  const [activeBaseMap, setActiveBaseMap] = useState<'satellite' | 'street' | 'terrain'>('satellite');
+
+  const baseTiles = {
+    satellite: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    street: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    terrain: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+  };
 
   // Initialize MapLibre
   useEffect(() => {
@@ -45,18 +51,18 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
         style: {
           version: 8,
           sources: {
-            osm: {
+            'base-tiles': {
               type: 'raster',
-              tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+              tiles: [baseTiles.satellite],
               tileSize: 256,
-              attribution: '&copy; OpenStreetMap contributors | Copernicus Sentinel Data',
+              attribution: '&copy; OpenStreetMap | ESRI Satellite | Copernicus Sentinel',
             },
           },
           layers: [
             {
-              id: 'osm-tiles',
+              id: 'base-tiles-layer',
               type: 'raster',
-              source: 'osm',
+              source: 'base-tiles',
               minzoom: 0,
               maxzoom: 19,
             },
@@ -68,17 +74,9 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
         interactive: interactive,
       });
 
-      map.addControl(new maplibregl.NavigationControl({ showCompass: true }), 'top-right');
-      map.addControl(new maplibregl.ScaleControl({ maxWidth: 100, unit: 'metric' }), 'bottom-left');
-
       map.on('load', () => {
         mapInstance.current = map;
         setMapLoaded(true);
-      });
-
-      map.on('error', () => {
-        // Fallback gracefully
-        setMapError(false);
       });
 
       return () => {
@@ -87,9 +85,42 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
       };
     } catch (e) {
       console.warn('MapLibre WebGL initialization notice:', e);
-      setMapError(true);
     }
   }, [interactive]);
+
+  // Switch Base Map Style (Satellite / Street / Terrain)
+  const switchBaseMap = (type: 'satellite' | 'street' | 'terrain') => {
+    setActiveBaseMap(type);
+    const map = mapInstance.current;
+    if (!map || !mapLoaded) return;
+
+    const source = map.getSource('base-tiles') as any;
+    if (source && source.setTiles) {
+      source.setTiles([baseTiles[type]]);
+    } else {
+      if (map.getLayer('base-tiles-layer')) {
+        map.removeLayer('base-tiles-layer');
+      }
+      if (map.getSource('base-tiles')) {
+        map.removeSource('base-tiles');
+      }
+      map.addSource('base-tiles', {
+        type: 'raster',
+        tiles: [baseTiles[type]],
+        tileSize: 256,
+      });
+      map.addLayer(
+        {
+          id: 'base-tiles-layer',
+          type: 'raster',
+          source: 'base-tiles',
+          minzoom: 0,
+          maxzoom: 19,
+        },
+        map.getLayer('reserve-fill') ? 'reserve-fill' : undefined
+      );
+    }
+  };
 
   // Add reserve boundary and alert polygons when map is loaded
   useEffect(() => {
@@ -118,8 +149,8 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
           type: 'fill',
           source: 'reserve-boundary',
           paint: {
-            'fill-color': '#2E7D4F',
-            'fill-opacity': 0.12,
+            'fill-color': '#16a34a',
+            'fill-opacity': 0.15,
           },
         });
 
@@ -129,7 +160,7 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
           type: 'line',
           source: 'reserve-boundary',
           paint: {
-            'line-color': '#2E7D4F',
+            'line-color': '#22c55e',
             'line-width': 2.5,
             'line-dasharray': [4, 2],
           },
@@ -145,12 +176,12 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
       const isConfirmed = alert.status === 'confirmed';
 
       const color = isConfirmed
-        ? '#2E7D4F' // Forest green
+        ? '#16a34a'
         : isClearing
-        ? '#C8441B' // Rust alert
+        ? '#dc2626'
         : isFire
-        ? '#B8860B' // Amber
-        : '#1F6F8B'; // Water teal
+        ? '#d97706'
+        : '#0d9488';
 
       // Custom DOM Marker
       const el = document.createElement('div');
@@ -160,11 +191,11 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
       el.innerHTML = `
         <div style="
           background-color: ${color};
-          width: ${isSelected ? '28px' : '22px'};
-          height: ${isSelected ? '28px' : '22px'};
+          width: ${isSelected ? '26px' : '20px'};
+          height: ${isSelected ? '26px' : '20px'};
           border-radius: 50%;
-          border: 2.5px solid white;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+          border: 2px solid white;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.4);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -202,7 +233,7 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
             source: polySourceId,
             paint: {
               'fill-color': color,
-              'fill-opacity': isSelected ? 0.45 : 0.25,
+              'fill-opacity': isSelected ? 0.5 : 0.3,
             },
           });
 
@@ -230,46 +261,107 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
     }
   };
 
+  const zoomIn = () => {
+    if (mapInstance.current) mapInstance.current.zoomIn();
+  };
+
+  const zoomOut = () => {
+    if (mapInstance.current) mapInstance.current.zoomOut();
+  };
+
   return (
-    <div className={`relative overflow-hidden rounded-xl border border-slate-200/80 shadow-subtle bg-cream-50 ${className}`}>
+    <div className={`relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-emerald-950/60 shadow-subtle bg-slate-900 ${className}`}>
       {/* Map canvas container */}
       <div ref={mapContainer} className="w-full h-full min-h-[380px]" />
 
-      {/* Map Overlay Controls */}
-      <div className="absolute top-3 left-3 z-10 flex items-center gap-2">
+      {/* Overlaid Top-Left Controls: Kudremukh Center + Street / Satellite / Terrain (Exact Reference Match) */}
+      <div className="absolute top-3 left-3 z-10 flex items-center gap-2 flex-wrap">
         <button
           type="button"
           onClick={resetView}
-          className="p-2 bg-white/95 hover:bg-white text-navy rounded-lg shadow-sm border border-slate-200 transition-colors text-xs font-medium flex items-center gap-1.5 backdrop-blur-sm"
-          title="Reset map perspective to Kudremukh Center"
+          className="px-2.5 py-1.5 bg-white/90 dark:bg-navy-dark/90 hover:bg-white text-slate-800 dark:text-white rounded-xl shadow-sm border border-slate-200 dark:border-emerald-950/60 transition-colors text-xs font-semibold flex items-center gap-1.5 backdrop-blur-md cursor-pointer"
+          title="Reset perspective"
         >
-          <RotateCcw className="w-3.5 h-3.5" />
+          <Compass className="w-3.5 h-3.5 text-[#16a34a]" />
           <span>Kudremukh Center</span>
+        </button>
+
+        <div className="flex items-center bg-white/90 dark:bg-navy-dark/90 backdrop-blur-md p-0.5 rounded-xl border border-slate-200 dark:border-emerald-950/60 shadow-sm text-xs font-semibold">
+          <button
+            type="button"
+            onClick={() => switchBaseMap('street')}
+            className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
+              activeBaseMap === 'street'
+                ? 'bg-[#16a34a] text-white shadow-sm'
+                : 'text-slate-700 dark:text-slate-300 hover:text-slate-900'
+            }`}
+          >
+            Street
+          </button>
+          <button
+            type="button"
+            onClick={() => switchBaseMap('satellite')}
+            className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
+              activeBaseMap === 'satellite'
+                ? 'bg-[#16a34a] text-white shadow-sm'
+                : 'text-slate-700 dark:text-slate-300 hover:text-slate-900'
+            }`}
+          >
+            Satellite
+          </button>
+          <button
+            type="button"
+            onClick={() => switchBaseMap('terrain')}
+            className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
+              activeBaseMap === 'terrain'
+                ? 'bg-[#16a34a] text-white shadow-sm'
+                : 'text-slate-700 dark:text-slate-300 hover:text-slate-900'
+            }`}
+          >
+            Terrain
+          </button>
+        </div>
+      </div>
+
+      {/* Overlaid Top-Right Zoom Controls (Exact Reference Match) */}
+      <div className="absolute top-3 right-3 z-10 flex flex-col gap-1">
+        <button
+          type="button"
+          onClick={zoomIn}
+          className="w-8 h-8 bg-white/90 dark:bg-navy-dark/90 hover:bg-white text-slate-800 dark:text-white rounded-lg shadow-sm border border-slate-200 dark:border-emerald-950/60 flex items-center justify-center transition-colors backdrop-blur-md cursor-pointer"
+          aria-label="Zoom in"
+        >
+          <Plus className="w-4 h-4" />
+        </button>
+        <button
+          type="button"
+          onClick={zoomOut}
+          className="w-8 h-8 bg-white/90 dark:bg-navy-dark/90 hover:bg-white text-slate-800 dark:text-white rounded-lg shadow-sm border border-slate-200 dark:border-emerald-950/60 flex items-center justify-center transition-colors backdrop-blur-md cursor-pointer"
+          aria-label="Zoom out"
+        >
+          <Minus className="w-4 h-4" />
         </button>
       </div>
 
-      {/* Map Legend */}
-      <div className="absolute bottom-3 right-3 z-10 bg-white/95 backdrop-blur-sm p-3 rounded-xl shadow-md border border-slate-200 text-xs space-y-1.5 pointer-events-none sm:pointer-events-auto">
-        <div className="font-semibold text-slate-800 border-b border-slate-100 pb-1 flex items-center gap-1.5">
-          <Layers className="w-3.5 h-3.5 text-navy" />
-          <span>Map Legend</span>
+      {/* Overlaid Bottom-Left Map Legend (Exact Reference Match) */}
+      <div className="absolute bottom-3 left-3 z-10 bg-black/60 backdrop-blur-md px-3.5 py-2 rounded-xl text-[11px] font-semibold text-white flex items-center gap-3 border border-white/10 shadow-lg pointer-events-none sm:pointer-events-auto">
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#16a34a] inline-block shadow-sm" />
+          <span>Healthy Forest</span>
         </div>
-        <div className="flex items-center gap-2 text-slate-600">
-          <span className="w-3 h-0.5 bg-forest border border-dashed border-forest inline-block" />
-          <span>Kudremukh Reserve Boundary</span>
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#dc2626] inline-block shadow-sm" />
+          <span>Canopy Loss</span>
         </div>
-        <div className="flex items-center gap-2 text-slate-600">
-          <span className="w-2.5 h-2.5 rounded-full bg-rust inline-block" />
-          <span>Open Clearing Alert (2.4 ha)</span>
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#d97706] inline-block shadow-sm" />
+          <span>Moderate Change</span>
         </div>
-        <div className="flex items-center gap-2 text-slate-600">
-          <span className="w-2.5 h-2.5 rounded-full bg-amber inline-block" />
-          <span>Active Fire Anomaly (5.1 ha)</span>
-        </div>
-        <div className="flex items-center gap-2 text-slate-600">
-          <span className="w-2.5 h-2.5 rounded-full bg-forest inline-block" />
-          <span>Confirmed Patrol Verified</span>
-        </div>
+      </div>
+
+      {/* Scale indicator at bottom right */}
+      <div className="absolute bottom-3 right-3 z-10 bg-black/50 backdrop-blur-sm px-2.5 py-1 rounded-md text-[10px] font-mono text-white/90 border border-white/10">
+        5 km
       </div>
     </div>
   );
