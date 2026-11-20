@@ -1,0 +1,287 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.821,
+              12.9015
+            ],
+            [
+              74.8265,
+              12.902
+            ],
+            [
+              74.827,
+              12.9055
+            ],
+            [
+              74.822,
+              12.905
+            ],
+            [
+              74.821,
+              12.9015
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "zone-b-4",
+        "code": "Zone B-4",
+        "name": "Tannirbhavi North Estuary Fringe",
+        "reserve_id": "res-mangaluru-coastal",
+        "probability": 0.591,
+        "probability_pct": 59,
+        "risk_tier": "HIGH",
+        "color": "#F59E0B",
+        "projected_horizon_days": 45,
+        "primary_driver": "Proximity to newly graded unpaved dirt track (120m) & flat coastal wetland",
+        "recommended_action": "Establish Forest Checkpoint & dispatch daily UAV drone patrol",
+        "centroid": {
+          "lat": 12.9035,
+          "lng": 74.8235
+        },
+        "factors": {
+          "road_proximity_score": 0.67,
+          "cluster_diffusion_score": 0.5,
+          "slope_accessibility_score": 0.94,
+          "watercourse_proximity_score": 0.86,
+          "dist_road_meters": 120,
+          "slope_degrees": 6.0
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.8585,
+              12.9295
+            ],
+            [
+              74.8635,
+              12.93
+            ],
+            [
+              74.864,
+              12.9335
+            ],
+            [
+              74.859,
+              12.933
+            ],
+            [
+              74.8585,
+              12.9295
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "zone-m-2",
+        "code": "Zone M-2",
+        "name": "Kavoor Lake South Wetland Extension",
+        "reserve_id": "res-mangaluru-coastal",
+        "probability": 0.576,
+        "probability_pct": 57,
+        "risk_tier": "HIGH",
+        "color": "#F59E0B",
+        "projected_horizon_days": 45,
+        "primary_driver": "Active debris infill diffusion along vulnerable lake shoreline boundary",
+        "recommended_action": "Deploy concrete boundary pillars and issue stop-work injunction",
+        "centroid": {
+          "lat": 12.9315,
+          "lng": 74.861
+        },
+        "factors": {
+          "road_proximity_score": 0.55,
+          "cluster_diffusion_score": 0.56,
+          "slope_accessibility_score": 0.97,
+          "watercourse_proximity_score": 0.94,
+          "dist_road_meters": 180,
+          "slope_degrees": 3.5
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.894,
+              12.923
+            ],
+            [
+              74.9,
+              12.9235
+            ],
+            [
+              74.9005,
+              12.927
+            ],
+            [
+              74.8945,
+              12.9265
+            ],
+            [
+              74.894,
+              12.923
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "zone-p-1",
+        "code": "Zone P-1",
+        "name": "Pilikula Western Ridge Seam",
+        "reserve_id": "res-mangaluru-coastal",
+        "probability": 0.498,
+        "probability_pct": 49,
+        "risk_tier": "MODERATE",
+        "color": "#EAB308",
+        "projected_horizon_days": 45,
+        "primary_driver": "Laterite bedrock seam exposed adjacent to commercial quarry access lane",
+        "recommended_action": "Install seismic vibration sensors and night patrol trail cameras",
+        "centroid": {
+          "lat": 12.925,
+          "lng": 74.897
+        },
+        "factors": {
+          "road_proximity_score": 0.61,
+          "cluster_diffusion_score": 0.54,
+          "slope_accessibility_score": 0.88,
+          "watercourse_proximity_score": 0.4,
+          "dist_road_meters": 150,
+          "slope_degrees": 8.0
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.256,
+              13.224
+            ],
+            [
+              75.2615,
+              13.2245
+            ],
+            [
+              75.262,
+              13.228
+            ],
+            [
+              75.2565,
+              13.2275
+            ],
+            [
+              75.256,
+              13.224
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "zone-k-1",
+        "code": "Zone K-1",
+        "name": "Kudremukh South Ridge Flank",
+        "reserve_id": "res-kudremukh",
+        "probability": 0.333,
+        "probability_pct": 33,
+        "risk_tier": "MODERATE",
+        "color": "#EAB308",
+        "projected_horizon_days": 45,
+        "primary_driver": "Spillover logging progression from historical clearing alt-001",
+        "recommended_action": "Range Forest Officer boundary transect and satellite cadence boost",
+        "centroid": {
+          "lat": 13.226,
+          "lng": 75.2585
+        },
+        "factors": {
+          "road_proximity_score": 0.45,
+          "cluster_diffusion_score": 0.44,
+          "slope_accessibility_score": 0.73,
+          "watercourse_proximity_score": 0.36,
+          "dist_road_meters": 240,
+          "slope_degrees": 11.0
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.283,
+              13.1885
+            ],
+            [
+              75.289,
+              13.189
+            ],
+            [
+              75.2895,
+              13.1925
+            ],
+            [
+              75.2835,
+              13.192
+            ],
+            [
+              75.283,
+              13.1885
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "zone-k-3",
+        "code": "Zone K-3",
+        "name": "Eastern Shola Meadow Basin",
+        "reserve_id": "res-kudremukh",
+        "probability": 0.186,
+        "probability_pct": 18,
+        "risk_tier": "MODERATE",
+        "color": "#EAB308",
+        "projected_horizon_days": 45,
+        "primary_driver": "Combustible dry shola grassland adjacent to recent burn scar alt-002",
+        "recommended_action": "Clear 10m firebreak buffer line and station mobile mist blower unit",
+        "centroid": {
+          "lat": 13.1905,
+          "lng": 75.286
+        },
+        "factors": {
+          "road_proximity_score": 0.28,
+          "cluster_diffusion_score": 0.38,
+          "slope_accessibility_score": 0.46,
+          "watercourse_proximity_score": 0.31,
+          "dist_road_meters": 380,
+          "slope_degrees": 14.5
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "model": "Prakriti Multivariate Spatial Hazard Kernel v2.4",
+    "forecast_horizon_days": 45,
+    "total_zones": 5,
+    "critical_count": 0,
+    "data_mode": "demo"
+  }
+}

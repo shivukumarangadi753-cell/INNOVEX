@@ -16,6 +16,8 @@ import {
   IrrigationAdviceResponse,
   JalScoreRequest,
   JalScoreResponse,
+  RiskZoneCollection,
+  ForecastSummary,
 } from './types';
 
 import rawAlerts from '../mocks/alerts.json';
@@ -23,6 +25,7 @@ import rawReserves from '../mocks/reserves.json';
 import rawFire from '../mocks/fire.json';
 import rawWildlife from '../mocks/wildlife.json';
 import rawWater from '../mocks/water.json';
+import rawRiskZones from '../mocks/risk_zones.json';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 export const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true' || import.meta.env.VITE_USE_MOCK === true;
@@ -266,5 +269,45 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ message, language, context }),
     });
+  },
+
+  async getRiskZones(reserveId?: string, minProbability: number = 0.30): Promise<RiskZoneCollection> {
+    if (USE_MOCK) {
+      const collection = rawRiskZones as RiskZoneCollection;
+      let filtered = collection.features;
+      if (reserveId) {
+        filtered = filtered.filter((f) => f.properties.reserve_id === reserveId);
+      }
+      filtered = filtered.filter((f) => f.properties.probability >= minProbability);
+      return {
+        ...collection,
+        features: filtered,
+      };
+    }
+    const params = new URLSearchParams();
+    if (reserveId) params.append('reserve_id', reserveId);
+    params.append('min_probability', minProbability.toString());
+    return fetchJson<RiskZoneCollection>(`/api/forecast/risk-zones?${params.toString()}`);
+  },
+
+  async getForecastSummary(): Promise<ForecastSummary> {
+    if (USE_MOCK) {
+      const collection = rawRiskZones as RiskZoneCollection;
+      const features = collection.features;
+      const total = features.length;
+      const critical = features.filter((f) => f.properties.risk_tier === 'CRITICAL').length;
+      const high = features.filter((f) => f.properties.risk_tier === 'HIGH').length;
+      const avg = Math.round(features.reduce((acc, f) => acc + f.properties.probability_pct, 0) / Math.max(1, total));
+      return {
+        total_zones: total,
+        critical_zones: critical,
+        high_zones: high,
+        average_probability_pct: avg,
+        forecast_horizon_days: 45,
+        primary_threat_reserve: 'Mangaluru Coastal Eco-Zone & Kudremukh National Park',
+        data_mode: 'demo',
+      };
+    }
+    return fetchJson<ForecastSummary>('/api/forecast/summary');
   },
 };

@@ -10,38 +10,55 @@ import {
   ArrowRight,
   AlertTriangle,
   Info,
+  Sparkles,
+  ShieldAlert,
+  Crosshair,
+  Send,
+  X,
+  Compass,
 } from 'lucide-react';
 import { api } from '../lib/api';
-import { Alert, Reserve } from '../lib/types';
+import { Alert, Reserve, RiskZoneFeature } from '../lib/types';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/Card';
 import { Tooltip } from '../components/Tooltip';
 import { ImageSlider } from '../components/ImageSlider';
 import { ReserveMap } from '../components/ReserveMap';
 import { Button } from '../components/Button';
 import { Chip } from '../components/Chip';
+import { useToast } from '../components/Toast';
 
 export const ForestWatch: React.FC = () => {
   const { t } = useTranslation('forest');
+  const { showToast } = useToast();
 
   const [reserve, setReserve] = useState<Reserve | null>(null);
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);
+  const [riskZones, setRiskZones] = useState<RiskZoneFeature[]>([]);
+  const [selectedRiskZone, setSelectedRiskZone] = useState<RiskZoneFeature | null>(null);
   const [currentPass, setCurrentPass] = useState<'T1' | 'T2'>('T2');
   const [layers, setLayers] = useState({
     ndvi: true,
     change: true,
     radar: false,
+    riskForecast: true,
   });
 
   useEffect(() => {
-    Promise.all([api.getReserves(), api.getAlerts()]).then(([res, al]) => {
+    Promise.all([api.getReserves(), api.getAlerts(), api.getRiskZones()]).then(([res, al, rz]) => {
       setReserve(res[0] || null);
       setAlerts(al);
       if (al.length > 0) setSelectedAlert(al[0]);
+      if (rz && rz.features) {
+        setRiskZones(rz.features);
+        // Default select highest risk zone
+        const highest = [...rz.features].sort((a, b) => b.properties.probability - a.properties.probability)[0];
+        if (highest) setSelectedRiskZone(highest);
+      }
     });
   }, []);
 
-  const toggleLayer = (layerKey: 'ndvi' | 'change' | 'radar') => {
+  const toggleLayer = (layerKey: 'ndvi' | 'change' | 'radar' | 'riskForecast') => {
     setLayers((prev) => ({ ...prev, [layerKey]: !prev[layerKey] }));
   };
 
@@ -174,6 +191,21 @@ export const ForestWatch: React.FC = () => {
                   <span className={`w-1.5 h-1.5 rounded-full ${layers.radar ? 'bg-sky-500' : 'bg-slate-300'}`} />
                   Radar SAR
                 </button>
+
+                {/* AI Risk Heatmap (45d) Forecaster Toggle */}
+                <button
+                  type="button"
+                  onClick={() => toggleLayer('riskForecast')}
+                  className={`text-[11px] px-2.5 py-0.5 rounded-full font-bold border flex items-center gap-1.5 transition-all shadow-sm ${
+                    layers.riskForecast
+                      ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500 shadow-amber-500/20'
+                      : 'bg-slate-50 text-slate-400 border-slate-200'
+                  }`}
+                  title="Toggle 45-day AI Encroachment Risk Probability Heatmap"
+                >
+                  <Sparkles className={`w-3 h-3 ${layers.riskForecast ? 'text-amber-500 animate-pulse' : 'text-slate-400'}`} />
+                  <span>AI Risk Heatmap (45d)</span>
+                </button>
               </div>
             </div>
 
@@ -184,10 +216,125 @@ export const ForestWatch: React.FC = () => {
                 alerts={alerts}
                 selectedAlertId={selectedAlert?.id}
                 onSelectAlert={(a) => setSelectedAlert(a)}
+                riskZones={riskZones}
+                selectedRiskZoneId={selectedRiskZone?.properties.id}
+                onSelectRiskZone={(z) => setSelectedRiskZone(z)}
                 activeLayers={layers}
                 className="h-[360px]"
               />
             </div>
+
+            {/* Predictive Spatial Intelligence Inspector Card */}
+            {layers.riskForecast && selectedRiskZone && (
+              <div className="mt-4 p-4 rounded-xl bg-slate-900 border border-amber-500/40 shadow-lg text-white">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                  <div className="flex items-center gap-2">
+                    <ShieldAlert className="w-4 h-4 text-amber-400 animate-pulse" />
+                    <span className="font-mono font-bold text-xs text-amber-400">
+                      FORECASTER: {selectedRiskZone.properties.code}
+                    </span>
+                    <span className="text-[11px] text-slate-400">
+                      ({selectedRiskZone.properties.name})
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase bg-red-500/20 text-red-400 border border-red-500/40">
+                      {selectedRiskZone.properties.risk_tier} RISK: {selectedRiskZone.properties.probability_pct}%
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  <div>
+                    <span className="text-[11px] text-slate-400 font-medium">Primary Encroachment Driver:</span>
+                    <p className="font-semibold text-slate-200 mt-0.5">
+                      {selectedRiskZone.properties.primary_driver}
+                    </p>
+                    <div className="mt-2 text-[11px] text-slate-400">
+                      <span>Forecast Window: </span>
+                      <strong className="text-amber-300">Next 45 Days</strong>
+                    </div>
+                  </div>
+
+                  {/* Factor Meters */}
+                  <div className="space-y-1.5 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800/80">
+                    <div className="flex justify-between text-[11px]">
+                      <span className="text-slate-400">Road Proximity ({selectedRiskZone.properties.factors.dist_road_meters}m):</span>
+                      <span className="font-mono text-amber-400 font-bold">
+                        {Math.round(selectedRiskZone.properties.factors.road_proximity_score * 100)}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                      <div
+                        className="bg-amber-500 h-full rounded-full transition-all duration-500"
+                        style={{ width: `${selectedRiskZone.properties.factors.road_proximity_score * 100}%` }}
+                      />
+                    </div>
+
+                    <div className="flex justify-between text-[11px] pt-1">
+                      <span className="text-slate-400">Cluster Diffusion:</span>
+                      <span className="font-mono text-amber-400 font-bold">
+                        {Math.round(selectedRiskZone.properties.factors.cluster_diffusion_score * 100)}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                      <div
+                        className="bg-orange-500 h-full rounded-full transition-all duration-500"
+                        style={{ width: `${selectedRiskZone.properties.factors.cluster_diffusion_score * 100}%` }}
+                      />
+                    </div>
+
+                    <div className="flex justify-between text-[11px] pt-1">
+                      <span className="text-slate-400">Slope Flatness ({selectedRiskZone.properties.factors.slope_degrees}°):</span>
+                      <span className="font-mono text-emerald-400 font-bold">
+                        {Math.round(selectedRiskZone.properties.factors.slope_accessibility_score * 100)}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                      <div
+                        className="bg-emerald-500 h-full rounded-full transition-all duration-500"
+                        style={{ width: `${selectedRiskZone.properties.factors.slope_accessibility_score * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Preemptive Action Directives */}
+                <div className="mt-3 pt-2.5 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="text-[11px] text-slate-300">
+                    <span className="text-amber-400 font-bold">Preemptive Directive: </span>
+                    {selectedRiskZone.properties.recommended_action}
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        showToast(
+                          `🚨 Preemptive UAV Drone Patrol dispatched to coordinates ${selectedRiskZone.properties.centroid.lat}°N, ${selectedRiskZone.properties.centroid.lng}°E (${selectedRiskZone.properties.code})`,
+                          'info'
+                        )
+                      }
+                      className="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold transition-colors flex items-center gap-1 cursor-pointer"
+                    >
+                      <Send className="w-3 h-3" />
+                      <span>Dispatch Drone</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        showToast(
+                          `📋 Preemptive Ranger checkpoint itinerary logged for ${selectedRiskZone.properties.code}`,
+                          'success'
+                        )
+                      }
+                      className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold border border-slate-700 transition-colors cursor-pointer"
+                    >
+                      <span>Log Patrol</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </Card>
 

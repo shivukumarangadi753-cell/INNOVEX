@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { Alert, Reserve } from '../lib/types';
-import { Layers, RotateCcw, Plus, Minus, Compass } from 'lucide-react';
+import { Alert, Reserve, RiskZoneFeature } from '../lib/types';
+import { Layers, RotateCcw, Plus, Minus, Compass, AlertTriangle, ShieldAlert } from 'lucide-react';
 
 interface ReserveMapProps {
   reserve?: Reserve;
@@ -14,7 +14,11 @@ interface ReserveMapProps {
     ndvi?: boolean;
     change?: boolean;
     radar?: boolean;
+    riskForecast?: boolean;
   };
+  riskZones?: RiskZoneFeature[];
+  selectedRiskZoneId?: string | null;
+  onSelectRiskZone?: (zone: RiskZoneFeature) => void;
   className?: string;
   interactive?: boolean;
 }
@@ -25,7 +29,10 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
   selectedAlertId,
   onSelectAlert,
   showLayersControl = true,
-  activeLayers = { ndvi: true, change: true, radar: false },
+  activeLayers = { ndvi: true, change: true, radar: false, riskForecast: false },
+  riskZones = [],
+  selectedRiskZoneId,
+  onSelectRiskZone,
   className = '',
   interactive = true,
 }) => {
@@ -249,7 +256,105 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
         }
       }
     });
-  }, [reserve, alerts, selectedAlertId, mapLoaded, activeLayers, onSelectAlert]);
+
+    // 3. Add Predictive AI Encroachment Hazard Zones (When riskForecast is enabled)
+    if (activeLayers.riskForecast && riskZones.length > 0) {
+      riskZones.forEach((zone) => {
+        const isSelected = zone.properties.id === selectedRiskZoneId;
+        const sourceId = `risk-zone-${zone.properties.id}`;
+        const color = zone.properties.color || '#EF4444';
+
+        // Add Polygon Source & Layers
+        if (map.getSource(sourceId)) {
+          (map.getSource(sourceId) as maplibregl.GeoJSONSource).setData(zone.geometry as any);
+        } else {
+          map.addSource(sourceId, {
+            type: 'geojson',
+            data: zone.geometry as any,
+          });
+
+          // Hazard Glowing Fill Layer
+          map.addLayer({
+            id: `${sourceId}-fill`,
+            type: 'fill',
+            source: sourceId,
+            paint: {
+              'fill-color': color,
+              'fill-opacity': isSelected ? 0.45 : 0.28,
+            },
+          });
+
+          // Hazard Pulsing Boundary Line
+          map.addLayer({
+            id: `${sourceId}-line`,
+            type: 'line',
+            source: sourceId,
+            paint: {
+              'line-color': color,
+              'line-width': isSelected ? 3.5 : 2.2,
+              'line-dasharray': [4, 2],
+            },
+          });
+        }
+
+        // Add Glowing Centroid Label Badge Marker
+        const centroid = zone.properties.centroid;
+        if (centroid && centroid.lat && centroid.lng) {
+          const el = document.createElement('div');
+          el.className = `risk-badge cursor-pointer transition-all duration-300 ${
+            isSelected ? 'scale-110 z-40' : 'hover:scale-105 z-30'
+          }`;
+          el.innerHTML = `
+            <div style="
+              background: rgba(15, 23, 42, 0.92);
+              border: 1.5px solid ${color};
+              box-shadow: 0 0 12px ${color}88, 0 4px 10px rgba(0,0,0,0.5);
+              color: white;
+              padding: 3px 8px;
+              border-radius: 9999px;
+              display: flex;
+              align-items: center;
+              gap: 5px;
+              font-family: ui-monospace, SFMono-Regular, monospace;
+              font-size: 11px;
+              font-weight: 700;
+              letter-spacing: 0.025em;
+              white-space: nowrap;
+            ">
+              <span style="
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background-color: ${color};
+                display: inline-block;
+                box-shadow: 0 0 6px ${color};
+              "></span>
+              <span>${zone.properties.code}: ${zone.properties.probability_pct}%</span>
+            </div>
+          `;
+
+          el.onclick = (e) => {
+            e.stopPropagation();
+            if (onSelectRiskZone) onSelectRiskZone(zone);
+          };
+
+          const marker = new maplibregl.Marker({ element: el })
+            .setLngLat([centroid.lng, centroid.lat])
+            .addTo(map);
+
+          markersRef.current.push(marker);
+        }
+      });
+    } else {
+      // Cleanup risk zone layers if toggled off
+      riskZones.forEach((zone) => {
+        const sourceId = `risk-zone-${zone.properties.id}`;
+        if (map.getLayer(`${sourceId}-line`)) map.removeLayer(`${sourceId}-line`);
+        if (map.getLayer(`${sourceId}-fill`)) map.removeLayer(`${sourceId}-fill`);
+        if (map.getSource(sourceId)) map.removeSource(sourceId);
+      });
+    }
+  }, [reserve, alerts, selectedAlertId, riskZones, selectedRiskZoneId, mapLoaded, activeLayers, onSelectAlert, onSelectRiskZone]);
 
   const resetView = () => {
     if (mapInstance.current) {

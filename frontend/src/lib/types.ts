@@ -157,3 +157,55 @@ export interface JalScoreResponse {
   band: 'good' | 'watch' | 'critical';
   tips: string[];
 }
+
+export interface RiskFactorBreakdown {
+  road_proximity_score: number;
+  cluster_diffusion_score: number;
+  slope_accessibility_score: number;
+  watercourse_proximity_score: number;
+  dist_road_meters: number;
+  slope_degrees: number;
+}
+
+export interface RiskZoneProperties {
+  id: string;
+  code: string;
+  name: string;
+  reserve_id: string;
+  probability: number;
+  probability_pct: number;
+  risk_tier: 'CRITICAL' | 'HIGH' | 'MODERATE';
+  color: string;
+  projected_horizon_days: number;
+  primary_driver: string;
+  recommended_action: string;
+  centroid: {
+    lat: number;
+    lng: number;
+  };
+  factors: RiskFactorBreakdown;
+}
+
+export type RiskZoneFeature = GeoJSONFeature<GeoJSONGeometry, RiskZoneProperties>;
+
+export interface RiskZoneCollection {
+  type: 'FeatureCollection';
+  features: RiskZoneFeature[];
+  metadata?: {
+    model: string;
+    forecast_horizon_days: number;
+    total_zones: number;
+    critical_count: number;
+    data_mode: DataMode;
+  };
+}
+
+export interface ForecastSummary {
+  total_zones: number;
+  critical_zones: number;
+  high_zones: number;
+  average_probability_pct: number;
+  forecast_horizon_days: number;
+  primary_threat_reserve: string;
+  data_mode: DataMode;
+}
