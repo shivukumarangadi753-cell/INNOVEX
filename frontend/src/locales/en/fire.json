@@ -1,0 +1,21 @@
+{
+  "title": "Fire & Wildlife Watch",
+  "subtitle": "Satellite VIIRS thermal hotspots, burn scars, and wildlife corridor fragmentation in Kudremukh",
+  "demoBadge": "DEMO DATA",
+  "hotspotsTitle": "Active Thermal Hotspots",
+  "burnScarsTitle": "Detected Burn Scars",
+  "corridorsTitle": "Key Wildlife Corridors",
+  "risk": {
+    "high": "High Risk",
+    "medium": "Medium Risk",
+    "low": "Low Risk"
+  },
+  "whatThisMeansTitle": "What This Means for Field Teams",
+  "whatThisMeansText": "Thermal hotspots denote high-temperature surface anomalies detected by VIIRS sensors. High-risk wildlife corridors overlap with active thermal detections or steep terrain edges, demanding immediate patrol deployment before tree canopy degradation turns irreversible.",
+  "brightness": "Brightness",
+  "confidence": "Confidence",
+  "detectedAt": "Detected",
+  "area": "Burn Area",
+  "severity": "Severity",
+  "corridorReason": "Ecological Condition"
+}
