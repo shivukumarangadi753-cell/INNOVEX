@@ -32,31 +32,24 @@ export const KpiCard: React.FC<KpiCardProps> = ({
   const iconConfig = {
     rust: {
       bg: 'bg-red-50 text-red-500 border border-red-100 dark:bg-red-950/40 dark:text-red-400 dark:border-red-900/40',
-      sparkline: '#f87171',
     },
     forest: {
       bg: 'bg-emerald-50 text-emerald-600 border border-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900/40',
-      sparkline: '#34d399',
     },
     amber: {
       bg: 'bg-amber-50 text-amber-600 border border-amber-100 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-900/40',
-      sparkline: '#fbbf24',
     },
     teal: {
       bg: 'bg-teal-50 text-teal-600 border border-teal-100 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-900/40',
-      sparkline: '#2dd4bf',
     },
     navy: {
       bg: 'bg-sky-50 text-sky-600 border border-sky-100 dark:bg-sky-950/40 dark:text-sky-400 dark:border-sky-900/40',
-      sparkline: '#60a5fa',
     },
     purple: {
       bg: 'bg-purple-50 text-purple-600 border border-purple-100 dark:bg-purple-950/40 dark:text-purple-400 dark:border-purple-900/40',
-      sparkline: '#c084fc',
     },
     blue: {
       bg: 'bg-blue-50 text-blue-600 border border-blue-100 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-900/40',
-      sparkline: '#60a5fa',
     },
   };
 
@@ -65,7 +58,7 @@ export const KpiCard: React.FC<KpiCardProps> = ({
   return (
     <Card className={`p-4 sm:p-5 relative overflow-hidden bg-white dark:bg-navy-dark border border-slate-200/70 dark:border-emerald-950/50 rounded-2xl shadow-subtle hover:shadow-card transition-all ${className}`}>
       <div className="flex items-center justify-between gap-3">
-        {/* Left: Icon Badge + Value & Title */}
+        {/* Icon Badge + Value & Title */}
         <div className="flex items-center gap-3.5 min-w-0">
           <div className={`w-11 h-11 rounded-2xl shrink-0 flex items-center justify-center ${currentTheme.bg}`}>
             {icon}
@@ -85,19 +78,6 @@ export const KpiCard: React.FC<KpiCardProps> = ({
               {tooltipText && <Tooltip text={tooltipText} />}
             </div>
           </div>
-        </div>
-
-        {/* Right: Smooth Sparkline Curve SVG (Exact Reference Match) */}
-        <div className="w-20 sm:w-24 h-10 shrink-0 flex items-center justify-end opacity-90">
-          <svg className="w-full h-full" viewBox="0 0 100 40" fill="none" preserveAspectRatio="none">
-            <path
-              d="M 0 26 C 25 28, 40 18, 65 24 C 80 28, 90 12, 100 14"
-              stroke={currentTheme.sparkline}
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
         </div>
       </div>
 
