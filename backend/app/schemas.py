@@ -132,3 +132,37 @@ class JalScoreResponse(BaseModel):
     score: float = Field(ge=0.0, le=100.0)
     band: Literal["good", "watch", "critical"]
     tips: List[str]
+
+
+# ---------------------------------------------------------------------------
+# Tactical Patrol Routing Models
+# ---------------------------------------------------------------------------
+
+class PatrolStation(BaseModel):
+    id: str
+    name: str
+    lat: float
+    lng: float
+    description: Optional[str] = None
+
+
+class SlopeSummary(BaseModel):
+    flat_pct: float
+    moderate_pct: float
+    steep_pct: float
+    max_slope_deg: float
+
+
+class TacticalRouteResponse(BaseModel):
+    alert_id: str
+    station: PatrolStation
+    target_centroid: LatLng
+    total_distance_km: float
+    estimated_time_mins: float
+    elevation_gain_m: float
+    elevation_loss_m: float
+    slope_summary: SlopeSummary
+    route_geojson: Dict[str, Any]
+    tactical_advice: List[str]
+    data_mode: Literal["demo", "live"] = "demo"
+
