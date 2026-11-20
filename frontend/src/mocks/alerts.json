@@ -1,5 +1,128 @@
 [
   {
+    "id": "alt-mng-001",
+    "reserve_id": "res-mangaluru-coastal",
+    "status": "open",
+    "label": "clearing",
+    "area_ha": 2.8,
+    "confidence": 0.94,
+    "centroid": {
+      "lat": 12.8980,
+      "lng": 74.8210
+    },
+    "polygon": {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [74.8190, 12.8965],
+            [74.8235, 12.8960],
+            [74.8242, 12.8995],
+            [74.8215, 12.9005],
+            [74.8190, 12.8965]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "alt-mng-001",
+        "label": "clearing",
+        "area_ha": 2.8,
+        "confidence": 0.94,
+        "name": "Gurupura Estuary Tannirbhavi Mangrove Clearing",
+        "district": "Dakshina Kannada (Mangaluru)"
+      }
+    },
+    "detected_at": "2026-11-18T05:30:00Z",
+    "pass_t1": "2026-10-15T05:30:00Z",
+    "pass_t2": "2026-11-18T05:30:00Z",
+    "before_image_url": "/static/alerts/alert-mng-001_before.png",
+    "after_image_url": "/static/alerts/alert-mng-001_after.png",
+    "data_mode": "demo"
+  },
+  {
+    "id": "alt-mng-002",
+    "reserve_id": "res-mangaluru-coastal",
+    "status": "open",
+    "label": "clearing",
+    "area_ha": 1.5,
+    "confidence": 0.91,
+    "centroid": {
+      "lat": 12.9350,
+      "lng": 74.8580
+    },
+    "polygon": {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [74.8565, 12.9335],
+            [74.8600, 12.9338],
+            [74.8605, 12.9365],
+            [74.8572, 12.9368],
+            [74.8565, 12.9335]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "alt-mng-002",
+        "label": "clearing",
+        "area_ha": 1.5,
+        "confidence": 0.91,
+        "name": "Kavoor Lake Shoreline Wetland Infill & Encroachment",
+        "district": "Dakshina Kannada (Mangaluru)"
+      }
+    },
+    "detected_at": "2026-11-15T05:30:00Z",
+    "pass_t1": "2026-09-20T05:30:00Z",
+    "pass_t2": "2026-11-15T05:30:00Z",
+    "before_image_url": "/static/alerts/alert-mng-002_before.png",
+    "after_image_url": "/static/alerts/alert-mng-002_after.png",
+    "data_mode": "demo"
+  },
+  {
+    "id": "alt-mng-003",
+    "reserve_id": "res-mangaluru-coastal",
+    "status": "open",
+    "label": "clearing",
+    "area_ha": 3.2,
+    "confidence": 0.93,
+    "centroid": {
+      "lat": 12.9280,
+      "lng": 74.9020
+    },
+    "polygon": {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [74.8995, 12.9260],
+            [74.9050, 12.9265],
+            [74.9055, 12.9305],
+            [74.9002, 12.9300],
+            [74.8995, 12.9260]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "alt-mng-003",
+        "label": "clearing",
+        "area_ha": 3.2,
+        "confidence": 0.93,
+        "name": "Pilikula Nisargadhama Eco-Park Hillside Canopy Clearing",
+        "district": "Dakshina Kannada (Mangaluru)"
+      }
+    },
+    "detected_at": "2026-11-18T05:30:00Z",
+    "pass_t1": "2026-10-02T05:30:00Z",
+    "pass_t2": "2026-11-18T05:30:00Z",
+    "before_image_url": "/static/alerts/alert-mng-003_before.png",
+    "after_image_url": "/static/alerts/alert-mng-003_after.png",
+    "data_mode": "demo"
+  },
+  {
     "id": "alt-001",
     "reserve_id": "res-kudremukh",
     "status": "open",

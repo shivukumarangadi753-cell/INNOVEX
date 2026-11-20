@@ -216,8 +216,16 @@ export const ForestWatch: React.FC = () => {
                   selectedAlert?.after_image_url ||
                   '/static/alerts/alert-001_after.png'
                 }
-                beforeLabel="Before (Nov 08, 2025)"
-                afterLabel="After (Nov 18, 2025)"
+                beforeLabel={
+                  selectedAlert?.pass_t1
+                    ? `Pass T1 (${new Date(selectedAlert.pass_t1).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })})`
+                    : 'Before (Pass T1)'
+                }
+                afterLabel={
+                  selectedAlert?.pass_t2
+                    ? `Pass T2 (${new Date(selectedAlert.pass_t2).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })})`
+                    : 'After (Pass T2)'
+                }
                 className="w-full"
               />
             </div>

@@ -19,6 +19,15 @@ import yaml
 from app.config import settings
 from app.db import get_alert, list_reserves, save_alert
 from app.schemas import Alert, LatLng
+from ml.vegetation import (
+    compute_ndvi,
+    compute_dndvi,
+    compute_nbr,
+    compute_dnbr,
+    compute_radar_vh_drop,
+    create_scl_validity_mask,
+    extract_vegetation_loss_mask,
+)
 
 logger = logging.getLogger("prakriti-netra.detector")
 
@@ -229,31 +238,32 @@ def run_detector_pipeline(reserve_id: str = "kudremukh") -> List[Alert]:
     # -------------------------------------------------------------------------
     # STEP 2: CLEAN (Mask clouds/shadows via SCL & align grids)
     # -------------------------------------------------------------------------
-    cloud_classes = set(scl_cfg.get("cloud_classes", [3, 8, 9, 10, 11]))
-    cloud_mask_t1 = np.isin(scl_t1, list(cloud_classes))
-    cloud_mask_t2 = np.isin(scl_t2, list(cloud_classes))
-    valid_data_mask = ~(cloud_mask_t1 | cloud_mask_t2)
+    cloud_classes = scl_cfg.get("cloud_classes", [3, 8, 9, 10, 11])
+    valid_mask_t1 = create_scl_validity_mask(scl_t1, cloud_classes=cloud_classes)
+    valid_mask_t2 = create_scl_validity_mask(scl_t2, cloud_classes=cloud_classes)
+    valid_data_mask = valid_mask_t1 & valid_mask_t2
 
     # -------------------------------------------------------------------------
     # STEP 3: COMPARE (dNDVI, dNBR, SAR VH change in dB)
     # -------------------------------------------------------------------------
-    # Prevent divide-by-zero
-    eps = 1e-6
-    ndvi_t1 = (b8_t1 - b4_t1) / (b8_t1 + b4_t1 + eps)
-    ndvi_t2 = (b8_t2 - b4_t2) / (b8_t2 + b4_t2 + eps)
-    dndvi = ndvi_t2 - ndvi_t1
+    ndvi_t1 = compute_ndvi(b4_t1, b8_t1)
+    ndvi_t2 = compute_ndvi(b4_t2, b8_t2)
+    dndvi = compute_dndvi(ndvi_t1, ndvi_t2)
 
-    nbr_t1 = (b8_t1 - b12_t1) / (b8_t1 + b12_t1 + eps)
-    nbr_t2 = (b8_t2 - b12_t2) / (b8_t2 + b12_t2 + eps)
-    dnbr = nbr_t2 - nbr_t1
+    nbr_t1 = compute_nbr(b8_t1, b12_t1)
+    nbr_t2 = compute_nbr(b8_t2, b12_t2)
+    dnbr = compute_dnbr(nbr_t1, nbr_t2)
 
     # SAR VH loss in dB: drop in backscatter
-    dvh_drop = vh_t1 - vh_t2
+    dvh_drop = compute_radar_vh_drop(vh_t1, vh_t2)
 
     # Candidate pixels: significant vegetation or structural change where data is valid
-    candidate_pixels = (
-        valid_data_mask
-        & ((dndvi < dndvi_thresh) | (dvh_drop > vh_drop_thresh))
+    candidate_pixels = extract_vegetation_loss_mask(
+        dndvi=dndvi,
+        dvh_drop=dvh_drop,
+        valid_mask=valid_data_mask,
+        dndvi_threshold=dndvi_thresh,
+        vh_drop_threshold=vh_drop_thresh,
     )
 
     # -------------------------------------------------------------------------

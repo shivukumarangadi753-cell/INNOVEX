@@ -119,8 +119,55 @@ def get_alert(alert_id: str) -> Optional[Alert]:
         db.close()
 
 
+def ensure_mangalore_seed_data():
+    """Ensure Mangalore reserve and 3 before/after comparison alerts exist in the DB."""
+    try:
+        from data.generate_mangalore_examples import get_mangalore_alerts_data, get_mangalore_reserve_data
+        db = SessionLocal()
+        try:
+            mng_res = db.query(ReserveModel).filter(ReserveModel.id == "res-mangaluru-coastal").first()
+            if not mng_res:
+                r_data = get_mangalore_reserve_data()
+                new_res = ReserveModel(
+                    id=r_data["id"],
+                    name=r_data["name"],
+                    boundary=json.dumps(r_data["boundary"]),
+                    is_official=r_data.get("is_official", False),
+                )
+                db.add(new_res)
+                db.commit()
+
+            mng_alert = db.query(AlertModel).filter(AlertModel.id == "alt-mng-001").first()
+            if not mng_alert:
+                for a_data in get_mangalore_alerts_data():
+                    new_a = AlertModel(
+                        id=a_data["id"],
+                        reserve_id=a_data["reserve_id"],
+                        status=a_data["status"],
+                        label=a_data["label"],
+                        area_ha=a_data["area_ha"],
+                        confidence=a_data["confidence"],
+                        centroid_lat=a_data["centroid"]["lat"],
+                        centroid_lng=a_data["centroid"]["lng"],
+                        polygon=json.dumps(a_data["polygon"]),
+                        detected_at=a_data["detected_at"],
+                        pass_t1=a_data["pass_t1"],
+                        pass_t2=a_data["pass_t2"],
+                        before_image_url=a_data["before_image_url"],
+                        after_image_url=a_data["after_image_url"],
+                        data_mode=a_data.get("data_mode", "demo"),
+                    )
+                    db.add(new_a)
+                db.commit()
+        finally:
+            db.close()
+    except Exception:
+        pass
+
+
 def list_alerts(status: Optional[str] = None) -> List[Alert]:
     """List all alerts, optionally filtered by status ('open', 'confirmed', 'false_alarm')."""
+    ensure_mangalore_seed_data()
     db = SessionLocal()
     try:
         query = db.query(AlertModel)
@@ -222,6 +269,7 @@ def get_reviews_count() -> int:
 
 def list_reserves() -> List[Reserve]:
     """List all registered forest reserves."""
+    ensure_mangalore_seed_data()
     db = SessionLocal()
     try:
         models = db.query(ReserveModel).all()

@@ -1,5 +1,33 @@
 [
   {
+    "id": "res-mangaluru-coastal",
+    "name": "Mangaluru Coastal Zone & Western Ghats Foothills Buffer",
+    "boundary": {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [74.7800, 12.8200],
+            [74.9400, 12.8200],
+            [74.9600, 12.9700],
+            [74.8000, 12.9700],
+            [74.7800, 12.8200]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "res-mangaluru-coastal",
+        "name": "Mangaluru Coastal Zone & Eco-Buffer",
+        "state": "Karnataka",
+        "district": "Dakshina Kannada",
+        "area_sq_km": 280.5,
+        "ecozone": "Coastal Plain & Western Ghats Foothill Ecotone"
+      }
+    },
+    "is_official": false
+  },
+  {
     "id": "res-kudremukh",
     "name": "Kudremukh Reserve Forest & National Park (Western Ghats)",
     "boundary": {
