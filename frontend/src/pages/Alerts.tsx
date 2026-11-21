@@ -26,6 +26,7 @@ import { useToast } from '../components/Toast';
 import { ListSkeleton } from '../components/Skeleton';
 import { EmptyState } from '../components/EmptyState';
 import { ErrorState } from '../components/ErrorState';
+import { generateSatelliteComparePair } from '../lib/satelliteGenerator';
 
 export const Alerts: React.FC = () => {
   const { t } = useTranslation('alerts');
@@ -33,11 +34,40 @@ export const Alerts: React.FC = () => {
 
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);
+  const [alertImagery, setAlertImagery] = useState<{ before: string; after: string } | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'date' | 'area' | 'confidence'>('date');
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Automatically ensure high-resolution bi-temporal comparison is ready for the selected alert
+  useEffect(() => {
+    if (!selectedAlert) {
+      setAlertImagery(null);
+      return;
+    }
+
+    let isCancelled = false;
+    const centroid = selectedAlert.centroid;
+    if (centroid && typeof centroid.lat === 'number' && typeof centroid.lng === 'number') {
+      const p1 = selectedAlert.pass_t1 ? selectedAlert.pass_t1.slice(0, 10) : '2026-10-15';
+      const p2 = selectedAlert.pass_t2 ? selectedAlert.pass_t2.slice(0, 10) : '2026-11-18';
+      generateSatelliteComparePair(centroid.lat, centroid.lng, 1.5, selectedAlert.id, p1, p2)
+        .then((pair) => {
+          if (!isCancelled) {
+            setAlertImagery({ before: pair.beforeUrl, after: pair.afterUrl });
+          }
+        })
+        .catch((e) => {
+          console.warn('Alert comparison generator notice:', e);
+        });
+    }
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [selectedAlert]);
 
   const fetchAlerts = async () => {
     setIsLoading(true);
@@ -363,10 +393,13 @@ export const Alerts: React.FC = () => {
                 <span className="text-[11px] text-slate-500">Sentinel-2 L2A</span>
               </div>
               <ImageSlider
-                beforeImage={`${selectedAlert.before_image_url}?v=20261121_highres`}
-                afterImage={`${selectedAlert.after_image_url}?v=20261121_highres`}
+                beforeImage={alertImagery?.before || selectedAlert.before_image_url || '/static/alerts/alert-mng-001_before.png'}
+                afterImage={alertImagery?.after || selectedAlert.after_image_url || '/static/alerts/alert-mng-001_after.png'}
                 beforeLabel={t('drawer.pass1', 'Pass T1 (Before)')}
                 afterLabel={t('drawer.pass2', 'Pass T2 (After)')}
+                fallbackBefore={alertImagery?.before}
+                fallbackAfter={alertImagery?.after}
+                fallbackMessage={t('drawer.imageNotGenerated', 'Demo image not generated on this computer. Run the demo generator.')}
               />
               <div className="flex justify-between text-[11px] text-slate-500 px-1 font-mono">
                 <span>T1: {new Date(selectedAlert.pass_t1).toLocaleDateString()}</span>

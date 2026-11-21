@@ -31,7 +31,9 @@ def get_risk_zones(
     Returns a GeoJSON FeatureCollection containing predictive spatial hazard zones
     with 45-day encroachment clearing probabilities.
     """
-    return generate_forecast_geojson(reserve_id=reserve_id, min_probability=min_probability)
+    clean_res = reserve_id if isinstance(reserve_id, str) else None
+    clean_prob = float(min_probability) if isinstance(min_probability, (int, float)) else 0.30
+    return generate_forecast_geojson(reserve_id=clean_res, min_probability=clean_prob)
 
 
 @router.get("/summary", response_model=ForecastSummaryResponse)

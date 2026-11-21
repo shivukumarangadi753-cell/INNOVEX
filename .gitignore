@@ -52,5 +52,6 @@ lerna-debug.log*
 *.jp2
 /backend/data/*.tif
 /backend/data/satellite/
+/backend/data/explore/
 /backend/static/alerts/*.png
 backend/ml/model.joblib

@@ -9,6 +9,7 @@ import {
   Gauge,
   Bell,
   Info,
+  Compass,
 } from 'lucide-react';
 
 interface NavItem {
@@ -32,6 +33,11 @@ export const Navigation: React.FC = () => {
       to: '/forest',
       label: t('nav.forestWatch', 'Forest Watch'),
       icon: <TreePine className="w-[18px] h-[18px] shrink-0" />,
+    },
+    {
+      to: '/explore',
+      label: t('nav.explorePlace', 'Explore a Place'),
+      icon: <Compass className="w-[18px] h-[18px] shrink-0" />,
     },
     {
       to: '/fire-wildlife',

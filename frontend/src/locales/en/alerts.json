@@ -29,6 +29,7 @@
     "passDates": "Orbital Acquisition Timestamps",
     "pass1": "Pass T1 (Before)",
     "pass2": "Pass T2 (After)",
+    "imageNotGenerated": "Demo image not generated on this computer. Run the demo generator.",
     "reviewHeading": "Field Ground-Truthing Decision",
     "btnConfirm": "Confirm Clearing",
     "btnFalseAlarm": "Mark False Alarm",

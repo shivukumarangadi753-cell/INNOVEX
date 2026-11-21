@@ -1,0 +1,190 @@
+[
+  {
+    "incident_id": "tri-kdk-001",
+    "name": "Kudremukh South Ridge Active Canopy Clearing & Burn",
+    "reserve_id": "res-kudremukh",
+    "threat_score": 83.0,
+    "priority_band": "Red Flag",
+    "centroid_lat": 13.2215,
+    "centroid_lng": 75.25477,
+    "detected_at": "2026-11-20T21:37:51.210889Z",
+    "sar_event": {
+      "sensor_id": "SENTINEL-1-GRD",
+      "backscatter_drop_db": 6.8,
+      "polarization": "VH",
+      "timestamp": "2026-11-20T21:37:51.210889Z",
+      "lat": 13.2215,
+      "lng": 75.2548,
+      "data_mode": "demo"
+    },
+    "thermal_event": {
+      "sensor_id": "NASA-VIIRS-SNPP",
+      "brightness_temp_kelvin": 412.5,
+      "confidence_pct": 92.0,
+      "timestamp": "2026-11-20T21:37:51.210889Z",
+      "lat": 13.222,
+      "lng": 75.2555,
+      "data_mode": "demo"
+    },
+    "acoustic_event": {
+      "sensor_id": "IOT-KDK-AUDIO-04",
+      "event_type": "chainsaw",
+      "frequency_hz": 3450.0,
+      "confidence_score": 0.91,
+      "timestamp": "2026-11-20T21:37:51.210889Z",
+      "lat": 13.221,
+      "lng": 75.254,
+      "data_mode": "demo"
+    },
+    "sensor_breakdown": {
+      "sar_score": 83.2,
+      "thermal_score": 70.6,
+      "acoustic_score": 100.0,
+      "base_score": 83.0,
+      "temporal_decay_factor": 1.0,
+      "max_delta_hours": 0.0,
+      "spatial_spread_meters": 196.8
+    },
+    "action_directive": "Immediate tactical armed squad dispatch: Coincident thermal anomaly, radar canopy loss, and active audio alert.",
+    "data_mode": "demo"
+  },
+  {
+    "incident_id": "tri-mng-001",
+    "name": "Tannirbhavi Estuary Mangrove Felling",
+    "reserve_id": "res-mangaluru-coastal",
+    "threat_score": 66.9,
+    "priority_band": "Amber Watch",
+    "centroid_lat": 12.898,
+    "centroid_lng": 74.821,
+    "detected_at": "2026-11-20T21:37:51.210889Z",
+    "sar_event": {
+      "sensor_id": "SENTINEL-1-GRD",
+      "backscatter_drop_db": 5.4,
+      "polarization": "VH",
+      "timestamp": "2026-11-20T21:37:51.210889Z",
+      "lat": 12.898,
+      "lng": 74.821,
+      "data_mode": "demo"
+    },
+    "thermal_event": {
+      "sensor_id": "NASA-VIIRS-SNPP",
+      "brightness_temp_kelvin": 382.0,
+      "confidence_pct": 88.0,
+      "timestamp": "2026-11-20T21:37:51.210889Z",
+      "lat": 12.8985,
+      "lng": 74.8215,
+      "data_mode": "demo"
+    },
+    "acoustic_event": {
+      "sensor_id": "IOT-MNG-AUDIO-01",
+      "event_type": "chainsaw",
+      "frequency_hz": 3200.0,
+      "confidence_score": 0.89,
+      "timestamp": "2026-11-20T21:37:51.210889Z",
+      "lat": 12.8975,
+      "lng": 74.8205,
+      "data_mode": "demo"
+    },
+    "sensor_breakdown": {
+      "sar_score": 63.6,
+      "thermal_score": 48.4,
+      "acoustic_score": 97.9,
+      "base_score": 66.9,
+      "temporal_decay_factor": 1.0,
+      "max_delta_hours": 0.0,
+      "spatial_spread_meters": 155.3
+    },
+    "action_directive": "Deploy next routine UAV drone reconnaissance pass and alert forest beat guards.",
+    "data_mode": "demo"
+  },
+  {
+    "incident_id": "tri-mng-002",
+    "name": "Pilikula Eco-Park Laterite Extraction",
+    "reserve_id": "res-mangaluru-coastal",
+    "threat_score": 41.6,
+    "priority_band": "Green",
+    "centroid_lat": 12.928,
+    "centroid_lng": 74.902,
+    "detected_at": "2026-11-20T21:37:51.210889Z",
+    "sar_event": {
+      "sensor_id": "SENTINEL-1-GRD",
+      "backscatter_drop_db": 4.1,
+      "polarization": "VH",
+      "timestamp": "2026-11-20T21:37:51.210889Z",
+      "lat": 12.928,
+      "lng": 74.902,
+      "data_mode": "demo"
+    },
+    "thermal_event": {
+      "sensor_id": "NASA-VIIRS-SNPP",
+      "brightness_temp_kelvin": 335.0,
+      "confidence_pct": 65.0,
+      "timestamp": "2026-11-20T21:37:51.210889Z",
+      "lat": 12.9285,
+      "lng": 74.9025,
+      "data_mode": "demo"
+    },
+    "acoustic_event": {
+      "sensor_id": "IOT-MNG-AUDIO-03",
+      "event_type": "earthmover",
+      "frequency_hz": 420.0,
+      "confidence_score": 0.78,
+      "timestamp": "2026-11-20T21:37:51.210889Z",
+      "lat": 12.9275,
+      "lng": 74.9015,
+      "data_mode": "demo"
+    },
+    "sensor_breakdown": {
+      "sar_score": 45.4,
+      "thermal_score": 13.9,
+      "acoustic_score": 74.1,
+      "base_score": 41.6,
+      "temporal_decay_factor": 1.0,
+      "max_delta_hours": 0.0,
+      "spatial_spread_meters": 155.3
+    },
+    "action_directive": "Routine observation: Informational telemetry or seasonal variation; no tactical intervention required.",
+    "data_mode": "demo"
+  },
+  {
+    "incident_id": "tri-kdk-002",
+    "name": "Eastern Grassland Natural Shola Shedding",
+    "reserve_id": "res-kudremukh",
+    "threat_score": 11.5,
+    "priority_band": "Green",
+    "centroid_lat": 13.1941,
+    "centroid_lng": 75.2811,
+    "detected_at": "2026-11-20T21:37:51.210889Z",
+    "sar_event": {
+      "sensor_id": "SENTINEL-1-GRD",
+      "backscatter_drop_db": 1.8,
+      "polarization": "VH",
+      "timestamp": "2026-11-20T21:37:51.210889Z",
+      "lat": 13.1942,
+      "lng": 75.281,
+      "data_mode": "demo"
+    },
+    "thermal_event": null,
+    "acoustic_event": {
+      "sensor_id": "IOT-KDK-AUDIO-08",
+      "event_type": "ambient",
+      "frequency_hz": 1800.0,
+      "confidence_score": 0.2,
+      "timestamp": "2026-11-20T21:37:51.210889Z",
+      "lat": 13.194,
+      "lng": 75.2812,
+      "data_mode": "demo"
+    },
+    "sensor_breakdown": {
+      "sar_score": 15.0,
+      "thermal_score": 0.0,
+      "acoustic_score": 6.0,
+      "base_score": 11.5,
+      "temporal_decay_factor": 1.0,
+      "max_delta_hours": 0.0,
+      "spatial_spread_meters": 31.0
+    },
+    "action_directive": "Routine observation: Informational telemetry or seasonal variation; no tactical intervention required.",
+    "data_mode": "demo"
+  }
+]

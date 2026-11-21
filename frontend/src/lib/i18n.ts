@@ -7,6 +7,7 @@ import enOverview from '../locales/en/overview.json';
 import enForest from '../locales/en/forest.json';
 import enAlerts from '../locales/en/alerts.json';
 import enAbout from '../locales/en/about.json';
+import enExplore from '../locales/en/explore.json';
 
 // Hindi
 import hiCommon from '../locales/hi/common.json';
@@ -14,6 +15,7 @@ import hiOverview from '../locales/hi/overview.json';
 import hiForest from '../locales/hi/forest.json';
 import hiAlerts from '../locales/hi/alerts.json';
 import hiAbout from '../locales/hi/about.json';
+import hiExplore from '../locales/hi/explore.json';
 
 // Kannada
 import knCommon from '../locales/kn/common.json';
@@ -21,6 +23,7 @@ import knOverview from '../locales/kn/overview.json';
 import knForest from '../locales/kn/forest.json';
 import knAlerts from '../locales/kn/alerts.json';
 import knAbout from '../locales/kn/about.json';
+import knExplore from '../locales/kn/explore.json';
 
 const resources = {
   en: {
@@ -29,6 +32,7 @@ const resources = {
     forest: enForest,
     alerts: enAlerts,
     about: enAbout,
+    explore: enExplore,
   },
   hi: {
     common: hiCommon,
@@ -36,6 +40,7 @@ const resources = {
     forest: hiForest,
     alerts: hiAlerts,
     about: hiAbout,
+    explore: hiExplore,
   },
   kn: {
     common: knCommon,
@@ -43,6 +48,7 @@ const resources = {
     forest: knForest,
     alerts: knAlerts,
     about: knAbout,
+    explore: knExplore,
   },
 };
 
@@ -53,7 +59,7 @@ i18n
     lng: 'en',
     fallbackLng: 'en',
     defaultNS: 'common',
-    ns: ['common', 'overview', 'forest', 'alerts', 'about'],
+    ns: ['common', 'overview', 'forest', 'alerts', 'about', 'explore'],
     interpolation: {
       escapeValue: false, // React already escapes
     },

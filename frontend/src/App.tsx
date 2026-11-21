@@ -10,6 +10,7 @@ import { CopilotWidget } from './components/CopilotWidget';
 // Main Pages
 import Overview from './pages/Overview';
 import ForestWatch from './pages/ForestWatch';
+import ExplorePlace from './pages/ExplorePlace';
 import Alerts from './pages/Alerts';
 import About from './pages/About';
 
@@ -47,6 +48,9 @@ export const App: React.FC = () => {
 
                 {/* Forest Watch Page */}
                 <Route path="/forest" element={<ForestWatch />} />
+
+                {/* Explore a Place Page */}
+                <Route path="/explore" element={<ExplorePlace />} />
 
                 {/* Partner Routes */}
                 <Route path="/fire-wildlife" element={<FireWildlife />} />

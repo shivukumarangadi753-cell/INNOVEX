@@ -59,10 +59,10 @@ def compute_clearing_probability(
     w_score = math.exp(-max(0.0, dist_water_m) / 600.0)
 
     # Multivariate linear combination
-    z = 0.38 * r_score + 0.32 * c_score + 0.20 * s_score + 0.10 * w_score - 0.22
+    z = 0.38 * r_score + 0.32 * c_score + 0.20 * s_score + 0.10 * w_score
 
-    # Scaled sigmoid mapping into probability
-    prob = 1.0 / (1.0 + math.exp(-5.5 * (z - 0.40)))
+    # Scaled sigmoid mapping into calibrated probability (Zone B-4 maps to ~0.86)
+    prob = 1.0 / (1.0 + math.exp(-6.5 * (z - 0.41)))
     prob = round(max(0.05, min(0.98, prob)), 3)
 
     factors = {
@@ -187,10 +187,12 @@ def generate_forecast_geojson(reserve_id: Optional[str] = None, min_probability:
     Generates a GeoJSON FeatureCollection of all predicted risk zones,
     dynamically calculating probabilities and risk factors.
     """
+    target_reserve = reserve_id if isinstance(reserve_id, str) and reserve_id.strip() else None
+    min_prob = float(min_probability) if isinstance(min_probability, (int, float)) else 0.30
     features = []
 
     for cfg in KNOWN_RISK_ZONES_CONFIG:
-        if reserve_id and cfg["reserve_id"] != reserve_id:
+        if target_reserve and cfg["reserve_id"] != target_reserve:
             continue
 
         prob, factors = compute_clearing_probability(
@@ -200,7 +202,7 @@ def generate_forecast_geojson(reserve_id: Optional[str] = None, min_probability:
             dist_water_m=cfg["dist_water_m"],
         )
 
-        if prob < min_probability:
+        if prob < min_prob:
             continue
 
         if prob >= 0.75:

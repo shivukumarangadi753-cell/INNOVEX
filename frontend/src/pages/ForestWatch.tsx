@@ -29,7 +29,7 @@ import { useToast } from '../components/Toast';
 
 export const ForestWatch: React.FC = () => {
   const { t } = useTranslation('forest');
-  const { showToast } = useToast();
+  const { info, success } = useToast();
 
   const [reserve, setReserve] = useState<Reserve | null>(null);
   const [alerts, setAlerts] = useState<Alert[]>([]);
@@ -309,9 +309,9 @@ export const ForestWatch: React.FC = () => {
                     <button
                       type="button"
                       onClick={() =>
-                        showToast(
-                          `🚨 Preemptive UAV Drone Patrol dispatched to coordinates ${selectedRiskZone.properties.centroid.lat}°N, ${selectedRiskZone.properties.centroid.lng}°E (${selectedRiskZone.properties.code})`,
-                          'info'
+                        info(
+                          'Preemptive Drone Dispatched',
+                          `UAV Drone dispatched to coordinates ${selectedRiskZone.properties.centroid.lat}°N, ${selectedRiskZone.properties.centroid.lng}°E (${selectedRiskZone.properties.code})`
                         )
                       }
                       className="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold transition-colors flex items-center gap-1 cursor-pointer"
@@ -322,9 +322,9 @@ export const ForestWatch: React.FC = () => {
                     <button
                       type="button"
                       onClick={() =>
-                        showToast(
-                          `📋 Preemptive Ranger checkpoint itinerary logged for ${selectedRiskZone.properties.code}`,
-                          'success'
+                        success(
+                          'Patrol Route Logged',
+                          `Preemptive Ranger checkpoint itinerary logged for ${selectedRiskZone.properties.code}`
                         )
                       }
                       className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold border border-slate-700 transition-colors cursor-pointer"

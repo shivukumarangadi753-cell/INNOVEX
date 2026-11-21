@@ -18,6 +18,10 @@ import {
   JalScoreResponse,
   RiskZoneCollection,
   ForecastSummary,
+  TriangulatedIncident,
+  TriangulationSummary,
+  PlaceSearchResult,
+  ExploreImageryResponse,
 } from './types';
 
 import rawAlerts from '../mocks/alerts.json';
@@ -26,6 +30,8 @@ import rawFire from '../mocks/fire.json';
 import rawWildlife from '../mocks/wildlife.json';
 import rawWater from '../mocks/water.json';
 import rawRiskZones from '../mocks/risk_zones.json';
+import rawTriangulation from '../mocks/triangulation.json';
+import { generateSatelliteComparePair } from './satelliteGenerator';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 export const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true' || import.meta.env.VITE_USE_MOCK === true;
@@ -309,5 +315,144 @@ export const api = {
       };
     }
     return fetchJson<ForecastSummary>('/api/forecast/summary');
+  },
+
+  async getThreatMatrix(reserveId?: string, minScore: number = 0.0): Promise<TriangulatedIncident[]> {
+    if (USE_MOCK) {
+      let list = rawTriangulation as TriangulatedIncident[];
+      if (reserveId) {
+        list = list.filter((i) => i.reserve_id === reserveId);
+      }
+      if (minScore > 0.0) {
+        list = list.filter((i) => i.threat_score >= minScore);
+      }
+      return list;
+    }
+    const params = new URLSearchParams();
+    if (reserveId) params.append('reserve_id', reserveId);
+    if (minScore > 0.0) params.append('min_score', minScore.toString());
+    return fetchJson<TriangulatedIncident[]>(`/api/triangulation/threat-matrix?${params.toString()}`);
+  },
+
+  async getTriangulationSummary(): Promise<TriangulationSummary> {
+    if (USE_MOCK) {
+      const list = rawTriangulation as TriangulatedIncident[];
+      const total = list.length;
+      const red = list.filter((i) => i.priority_band === 'Red Flag').length;
+      const amber = list.filter((i) => i.priority_band === 'Amber Watch').length;
+      const green = list.filter((i) => i.priority_band === 'Green').length;
+      const avg = Math.round((list.reduce((acc, i) => acc + i.threat_score, 0) / Math.max(1, total)) * 10) / 10;
+      return {
+        total_incidents: total,
+        red_flag_count: red,
+        amber_watch_count: amber,
+        green_count: green,
+        avg_threat_score: avg,
+        data_mode: 'demo',
+      };
+    }
+    return fetchJson<TriangulationSummary>('/api/triangulation/summary');
+  },
+
+  async searchPlaces(query: string): Promise<PlaceSearchResult[]> {
+    const cleanQ = query.trim();
+    if (!cleanQ || cleanQ.length < 2) return [];
+
+    if (USE_MOCK) {
+      const mockPlaces: PlaceSearchResult[] = [
+        { name: 'Kudremukh Peak, Chikkamagaluru, Karnataka', lat: 13.2215, lng: 75.2548 },
+        { name: 'Tannirbhavi Beach & Estuary, Mangaluru, Karnataka', lat: 12.8980, lng: 74.8210 },
+        { name: 'Kavoor Lake, Mangaluru, Karnataka', lat: 12.9350, lng: 74.8580 },
+        { name: 'Pilikula Nisargadhama Eco-Park, Mangaluru, Karnataka', lat: 12.9280, lng: 74.9020 },
+        { name: 'Agumbe Rainforest Research Station, Shimoga, Karnataka', lat: 13.5186, lng: 75.0920 },
+      ];
+      return mockPlaces.filter((p) => p.name.toLowerCase().includes(cleanQ.toLowerCase()));
+    }
+
+    const params = new URLSearchParams({ q: cleanQ });
+    try {
+      return await fetchJson<PlaceSearchResult[]>(`/api/explore/search?${params.toString()}`);
+    } catch {
+      // Graceful fallback to regional Karnataka & Western Ghats landmarks if Nominatim service times out
+      const fallbackPlaces: PlaceSearchResult[] = [
+        { name: 'Kudremukh Peak, Chikkamagaluru, Karnataka', lat: 13.2215, lng: 75.2548 },
+        { name: 'Tannirbhavi Beach & Estuary, Mangaluru, Karnataka', lat: 12.8980, lng: 74.8210 },
+        { name: 'Kavoor Lake, Mangaluru, Karnataka', lat: 12.9350, lng: 74.8580 },
+        { name: 'Pilikula Nisargadhama Eco-Park, Mangaluru, Karnataka', lat: 12.9280, lng: 74.9020 },
+        { name: 'Agumbe Rainforest Research Station, Shimoga, Karnataka', lat: 13.5186, lng: 75.0920 },
+        { name: 'Bannerghatta National Park, Bengaluru, Karnataka', lat: 12.8009, lng: 77.5777 },
+        { name: 'Nagarhole National Park, Kodagu, Karnataka', lat: 12.0314, lng: 76.1554 },
+        { name: 'Bandipur Tiger Reserve, Chamarajanagar, Karnataka', lat: 11.6664, lng: 76.6291 },
+      ];
+      return fallbackPlaces.filter((p) => p.name.toLowerCase().includes(cleanQ.toLowerCase()));
+    }
+  },
+
+  async getExploreImagery(
+    lat: number,
+    lng: number,
+    radiusKm: number,
+    before: string,
+    after: string
+  ): Promise<ExploreImageryResponse> {
+    if (USE_MOCK) {
+      const pair = await generateSatelliteComparePair(lat, lng, radiusKm, 'Selected Location', before, after);
+      return {
+        status: 'ok',
+        data_mode: 'demo',
+        satellite: 'Sentinel-2 MSI L2A (DEMO DATA)',
+        observation_dates: {
+          before: before || '2024-01-15',
+          after: after || '2024-06-15',
+        },
+        cloud_cover_pct: pair.cloudCoverPct,
+        valid_pixel_pct: pair.validPixelPct,
+        ndvi_mean_before: pair.ndviBefore,
+        ndvi_mean_after: pair.ndviAfter,
+        vegetation_change_pct_points: pair.vegChangePp,
+        before_image_url: pair.beforeUrl,
+        after_image_url: pair.afterUrl,
+        message: 'Loaded location-specific bi-temporal Sentinel-2 observation pair.',
+      };
+    }
+
+    const params = new URLSearchParams({
+      lat: lat.toString(),
+      lng: lng.toString(),
+      radius_km: radiusKm.toString(),
+      before: before,
+      after: after,
+    });
+
+    try {
+      const res = await fetchJson<ExploreImageryResponse>(`/api/explore/imagery?${params.toString()}`);
+      if (res.before_image_url && res.before_image_url.startsWith('/api/')) {
+        res.before_image_url = `${API_BASE}${res.before_image_url}`;
+      }
+      if (res.after_image_url && res.after_image_url.startsWith('/api/')) {
+        res.after_image_url = `${API_BASE}${res.after_image_url}`;
+      }
+      return res;
+    } catch {
+      // Graceful offline fallback with location-specific satellite tiles
+      const pair = await generateSatelliteComparePair(lat, lng, radiusKm, 'Selected Location', before, after);
+      return {
+        status: 'ok',
+        data_mode: 'demo',
+        satellite: 'Sentinel-2 MSI L2A (OFFLINE FALLBACK)',
+        observation_dates: {
+          before: before || '2024-01-15',
+          after: after || '2024-06-15',
+        },
+        cloud_cover_pct: pair.cloudCoverPct,
+        valid_pixel_pct: pair.validPixelPct,
+        ndvi_mean_before: pair.ndviBefore,
+        ndvi_mean_after: pair.ndviAfter,
+        vegetation_change_pct_points: pair.vegChangePp,
+        before_image_url: pair.beforeUrl,
+        after_image_url: pair.afterUrl,
+        message: 'Backend server not responding. Operating in offline demo mode.',
+      };
+    }
   },
 };

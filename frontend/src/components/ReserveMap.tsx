@@ -19,6 +19,10 @@ interface ReserveMapProps {
   riskZones?: RiskZoneFeature[];
   selectedRiskZoneId?: string | null;
   onSelectRiskZone?: (zone: RiskZoneFeature) => void;
+  onMapClick?: (coords: { lat: number; lng: number }) => void;
+  selectedPoint?: { lat: number; lng: number } | null;
+  centerCoords?: [number, number];
+  zoomLevel?: number;
   className?: string;
   interactive?: boolean;
 }
@@ -33,12 +37,17 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
   riskZones = [],
   selectedRiskZoneId,
   onSelectRiskZone,
+  onMapClick,
+  selectedPoint,
+  centerCoords,
+  zoomLevel,
   className = '',
   interactive = true,
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<maplibregl.Map | null>(null);
   const markersRef = useRef<maplibregl.Marker[]>([]);
+  const selectedPointMarkerRef = useRef<maplibregl.Marker | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [activeBaseMap, setActiveBaseMap] = useState<'satellite' | 'street' | 'terrain'>('satellite');
 
@@ -84,6 +93,13 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
       map.on('load', () => {
         mapInstance.current = map;
         setMapLoaded(true);
+      });
+
+      // Handle map clicks if callback is provided
+      map.on('click', (e) => {
+        if (onMapClick) {
+          onMapClick({ lat: e.lngLat.lat, lng: e.lngLat.lng });
+        }
       });
 
       return () => {
@@ -355,6 +371,56 @@ export const ReserveMap: React.FC<ReserveMapProps> = ({
       });
     }
   }, [reserve, alerts, selectedAlertId, riskZones, selectedRiskZoneId, mapLoaded, activeLayers, onSelectAlert, onSelectRiskZone]);
+
+  // Update selected exploration point pin marker and camera center
+  useEffect(() => {
+    const map = mapInstance.current;
+    if (!map || !mapLoaded) return;
+
+    if (selectedPointMarkerRef.current) {
+      selectedPointMarkerRef.current.remove();
+      selectedPointMarkerRef.current = null;
+    }
+
+    if (selectedPoint && selectedPoint.lat && selectedPoint.lng) {
+      const el = document.createElement('div');
+      el.className = 'selected-point-pin z-50';
+      el.innerHTML = `
+        <div style="
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          background: #3b82f6;
+          border: 3px solid white;
+          box-shadow: 0 0 16px rgba(59, 130, 246, 0.9), 0 4px 10px rgba(0,0,0,0.6);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-weight: 900;
+          font-size: 14px;
+        ">
+          📍
+        </div>
+      `;
+
+      selectedPointMarkerRef.current = new maplibregl.Marker({ element: el })
+        .setLngLat([selectedPoint.lng, selectedPoint.lat])
+        .addTo(map);
+
+      map.flyTo({
+        center: [selectedPoint.lng, selectedPoint.lat],
+        zoom: zoomLevel || 13,
+        essential: true,
+      });
+    } else if (centerCoords) {
+      map.flyTo({
+        center: centerCoords,
+        zoom: zoomLevel || 11,
+        essential: true,
+      });
+    }
+  }, [selectedPoint, centerCoords, zoomLevel, mapLoaded]);
 
   const resetView = () => {
     if (mapInstance.current) {

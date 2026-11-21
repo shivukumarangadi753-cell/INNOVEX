@@ -1,5 +1,5 @@
-import React, { useState, useRef, useCallback } from 'react';
-import { ChevronsLeftRight } from 'lucide-react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { ChevronsLeftRight, Layers } from 'lucide-react';
 
 interface ImageSliderProps {
   beforeImage: string;
@@ -7,6 +7,9 @@ interface ImageSliderProps {
   beforeLabel?: string;
   afterLabel?: string;
   className?: string;
+  fallbackMessage?: React.ReactNode;
+  fallbackBefore?: string;
+  fallbackAfter?: string;
 }
 
 export const ImageSlider: React.FC<ImageSliderProps> = ({
@@ -15,10 +18,54 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   beforeLabel = 'Before (Nov 08, 2025)',
   afterLabel = 'After (Nov 18, 2025)',
   className = '',
+  fallbackMessage,
+  fallbackBefore,
+  fallbackAfter,
 }) => {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const [currentBefore, setCurrentBefore] = useState(beforeImage);
+  const [currentAfter, setCurrentAfter] = useState(afterImage);
+  const [hasError, setHasError] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setCurrentBefore(beforeImage);
+    setCurrentAfter(afterImage);
+    setHasError(false);
+  }, [beforeImage, afterImage]);
+
+  const handleBeforeError = () => {
+    if (fallbackBefore && currentBefore !== fallbackBefore) {
+      setCurrentBefore(fallbackBefore);
+      return;
+    }
+    if (currentBefore.includes('?')) {
+      setCurrentBefore(currentBefore.split('?')[0]);
+    } else if (currentBefore.includes('alert-mng-001')) {
+      setCurrentBefore('/static/alerts/alt-mng-001_before.png');
+    } else if (currentBefore.includes('alt-mng-001')) {
+      setCurrentBefore('/static/alerts/alert-001_before.png');
+    } else {
+      setHasError(true);
+    }
+  };
+
+  const handleAfterError = () => {
+    if (fallbackAfter && currentAfter !== fallbackAfter) {
+      setCurrentAfter(fallbackAfter);
+      return;
+    }
+    if (currentAfter.includes('?')) {
+      setCurrentAfter(currentAfter.split('?')[0]);
+    } else if (currentAfter.includes('alert-mng-001')) {
+      setCurrentAfter('/static/alerts/alt-mng-001_after.png');
+    } else if (currentAfter.includes('alt-mng-001')) {
+      setCurrentAfter('/static/alerts/alert-001_after.png');
+    } else {
+      setHasError(true);
+    }
+  };
 
   const handleMove = useCallback((clientX: number) => {
     if (!containerRef.current) return;
@@ -37,6 +84,29 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
     handleMove(e.clientX);
   }, [isDragging, handleMove]);
 
+  if (hasError) {
+    return (
+      <div
+        className={`relative flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden rounded-2xl bg-slate-900/90 text-slate-200 aspect-[4/3] sm:aspect-video shadow-card border border-amber-500/30 ${className}`}
+      >
+        <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-3">
+          <Layers className="w-6 h-6" />
+        </div>
+        <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">
+          Bi-Temporal Satellite Observation
+        </h4>
+        <p className="text-xs text-amber-300 font-medium max-w-sm leading-relaxed px-4">
+          {fallbackMessage || 'Demo image not generated on this computer. Run the demo generator.'}
+        </p>
+        <div className="mt-3 flex items-center gap-2">
+          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono tracking-wider font-semibold uppercase bg-slate-800 text-slate-400 border border-slate-700">
+            DEMO DATA
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       ref={containerRef}
@@ -49,8 +119,9 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
     >
       {/* After Image (Background) */}
       <img
-        src={afterImage}
+        src={currentAfter}
         alt={afterLabel}
+        onError={handleAfterError}
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
       />
       <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md text-white text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-white/20 shadow-sm pointer-events-none">
@@ -63,8 +134,9 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
         style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
       >
         <img
-          src={beforeImage}
+          src={currentBefore}
           alt={beforeLabel}
+          onError={handleBeforeError}
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-white/20 shadow-sm pointer-events-none">

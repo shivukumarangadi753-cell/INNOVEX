@@ -209,3 +209,101 @@ export interface ForecastSummary {
   primary_threat_reserve: string;
   data_mode: DataMode;
 }
+
+export interface SensorBreakdown {
+  sar_score: number;
+  thermal_score: number;
+  acoustic_score: number;
+  base_score: number;
+  temporal_decay_factor: number;
+  max_delta_hours: number;
+  spatial_spread_meters: number;
+}
+
+export interface SARShiftEvent {
+  sensor_id: string;
+  backscatter_drop_db: number;
+  polarization: string;
+  timestamp: string;
+  lat: number;
+  lng: number;
+}
+
+export interface FIRMSThermalEvent {
+  sensor_id: string;
+  brightness_temp_kelvin: number;
+  confidence_pct: number;
+  timestamp: string;
+  lat: number;
+  lng: number;
+}
+
+export interface AcousticReportEvent {
+  sensor_id: string;
+  event_type: 'chainsaw' | 'gunshot' | 'earthmover' | 'ambient';
+  frequency_hz: number;
+  confidence_score: number;
+  timestamp: string;
+  lat: number;
+  lng: number;
+}
+
+export interface TriangulatedIncident {
+  incident_id: string;
+  name: string;
+  reserve_id: string;
+  threat_score: number; // 0 - 100
+  priority_band: 'Red Flag' | 'Amber Watch' | 'Green';
+  centroid_lat: number;
+  centroid_lng: number;
+  detected_at: string;
+  sar_event?: SARShiftEvent | null;
+  thermal_event?: FIRMSThermalEvent | null;
+  acoustic_event?: AcousticReportEvent | null;
+  sensor_breakdown: SensorBreakdown;
+  action_directive: string;
+  data_mode: DataMode;
+}
+
+export interface TriangulationSummary {
+  total_incidents: number;
+  red_flag_count: number;
+  amber_watch_count: number;
+  green_count: number;
+  avg_threat_score: number;
+  data_mode: DataMode;
+}
+
+export interface PlaceSearchResult {
+  name: string;
+  lat: number;
+  lng: number;
+}
+
+export interface ExploreImageryResponse {
+  status: 'ok' | 'no_clear_scene' | 'data_unavailable';
+  before_image_url?: string | null;
+  after_image_url?: string | null;
+  observation_dates?: {
+    before: string;
+    after: string;
+  } | null;
+  satellite: string;
+  cloud_cover_pct?: {
+    before: number;
+    after: number;
+  } | null;
+  valid_pixel_pct?: {
+    before: number;
+    after: number;
+  } | null;
+  ndvi_mean_before?: number | null;
+  ndvi_mean_after?: number | null;
+  vegetation_change_pct_points?: number | null;
+  searched_window?: {
+    before_window: string;
+    after_window: string;
+  } | null;
+  message?: string | null;
+  data_mode: DataMode;
+}

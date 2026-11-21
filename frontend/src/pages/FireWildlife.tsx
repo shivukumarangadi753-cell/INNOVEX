@@ -15,6 +15,10 @@ import {
   TreePine,
   ShieldCheck,
   Footprints,
+  Volume2,
+  Satellite,
+  Activity,
+  Send,
 } from 'lucide-react';
 
 import { Card } from '../components/Card';
@@ -22,7 +26,8 @@ import { Chip } from '../components/Chip';
 import { Skeleton } from '../components/Skeleton';
 import { KpiCard } from '../components/KpiCard';
 import { api } from '../lib/api';
-import { FireHotspot } from '../lib/types';
+import { FireHotspot, TriangulatedIncident, TriangulationSummary } from '../lib/types';
+import { useToast } from '../components/Toast';
 import i18n from '../lib/i18n';
 
 // i18n Bundles for Fire & Wildlife
@@ -36,12 +41,15 @@ i18n.addResourceBundle('kn', 'fire', knFire, true, true);
 
 export const FireWildlife: React.FC = () => {
   const { t } = useTranslation('fire');
+  const { info, success } = useToast();
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
 
   const [hotspots, setHotspots] = useState<FireHotspot[]>([]);
   const [burnScars, setBurnScars] = useState<any[]>([]);
   const [corridors, setCorridors] = useState<any[]>([]);
+  const [threatMatrix, setThreatMatrix] = useState<TriangulatedIncident[]>([]);
+  const [triangulationSummary, setTriangulationSummary] = useState<TriangulationSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeBaseMap, setActiveBaseMap] = useState<'satellite' | 'street' | 'terrain'>('satellite');
   const [selectedItem, setSelectedItem] = useState<{
@@ -59,14 +67,18 @@ export const FireWildlife: React.FC = () => {
     async function loadData() {
       try {
         setLoading(true);
-        const [hsData, bsData, corData] = await Promise.all([
+        const [hsData, bsData, corData, tmData, sumData] = await Promise.all([
           api.getFireHotspots(),
           api.getFireBurnScars(),
           api.getWildlifeCorridors(),
+          api.getThreatMatrix(),
+          api.getTriangulationSummary(),
         ]);
         setHotspots(hsData || []);
         setBurnScars(bsData?.features || []);
         setCorridors(corData?.features || []);
+        setThreatMatrix(tmData || []);
+        setTriangulationSummary(sumData || null);
       } catch (err) {
         console.error('Failed to load fire and wildlife data:', err);
       } finally {
@@ -520,6 +532,193 @@ export const FireWildlife: React.FC = () => {
           )}
         </Card>
       </div>
+
+      {/* Multi-Sensor Triangulation Threat Matrix Section */}
+      <Card className="p-5 bg-white dark:bg-navy-dark border border-slate-200/70 dark:border-emerald-950/60 rounded-2xl shadow-subtle mt-5">
+        <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 dark:border-emerald-950/40 gap-3">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-400 flex items-center justify-center shrink-0">
+              <Activity className="w-5 h-5 text-red-600 animate-pulse" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="font-bold text-slate-900 dark:text-white text-base">
+                  Multi-Sensor Triangulation Engine (Priority Threat Matrix)
+                </h3>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-red-600/10 text-red-600 border border-red-300 dark:border-red-800">
+                  Real-Time Event Fusion
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                Triangulates Sentinel-1 SAR (40%) + NASA FIRMS Thermal (35%) + IoT Ground Acoustic Nodes (25%) with 72h temporal decay
+              </p>
+            </div>
+          </div>
+
+          {/* Aggregate Summary Badges */}
+          {triangulationSummary && (
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="px-2.5 py-1 rounded-xl text-xs font-bold bg-red-500/15 text-red-600 border border-red-500/30 flex items-center gap-1.5 shadow-sm">
+                <span className="w-2 h-2 rounded-full bg-red-600 animate-ping" />
+                <span>🚩 {triangulationSummary.red_flag_count} Red Flag</span>
+              </span>
+              <span className="px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-500/15 text-amber-600 border border-amber-500/30 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-amber-500" />
+                <span>⚠️ {triangulationSummary.amber_watch_count} Amber Watch</span>
+              </span>
+              <span className="px-2.5 py-1 rounded-xl text-xs font-bold bg-emerald-500/15 text-emerald-600 border border-emerald-500/30 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span>🟢 {triangulationSummary.green_count} Green</span>
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Incidents Grid */}
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {threatMatrix.map((inc) => {
+            const isRed = inc.priority_band === 'Red Flag';
+            const isAmber = inc.priority_band === 'Amber Watch';
+            const colorClass = isRed
+              ? 'border-red-500/40 bg-red-950/10 dark:bg-red-950/20'
+              : isAmber
+              ? 'border-amber-500/40 bg-amber-950/10 dark:bg-amber-950/20'
+              : 'border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40';
+
+            return (
+              <div
+                key={inc.incident_id}
+                className={`p-4 rounded-xl border transition-all duration-200 shadow-sm flex flex-col justify-between ${colorClass}`}
+              >
+                <div>
+                  <div className="flex items-start justify-between gap-2 pb-2 border-b border-slate-200/60 dark:border-slate-800">
+                    <div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-mono text-xs font-bold text-slate-500">
+                          {inc.incident_id.toUpperCase()}
+                        </span>
+                        <span
+                          className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${
+                            isRed
+                              ? 'bg-red-600 text-white'
+                              : isAmber
+                              ? 'bg-amber-500 text-slate-950 font-extrabold'
+                              : 'bg-emerald-600 text-white'
+                          }`}
+                        >
+                          {inc.priority_band}
+                        </span>
+                      </div>
+                      <h4 className="font-bold text-slate-900 dark:text-white text-sm mt-0.5">
+                        {inc.name}
+                      </h4>
+                      <p className="text-[11px] text-slate-500 font-mono">
+                        {inc.centroid_lat}° N, {inc.centroid_lng}° E • {inc.reserve_id}
+                      </p>
+                    </div>
+
+                    {/* Threat Score Gauge */}
+                    <div className="text-right shrink-0">
+                      <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                        Threat Score
+                      </span>
+                      <span
+                        className={`text-2xl font-black font-mono leading-none ${
+                          isRed ? 'text-red-600 dark:text-red-400' : isAmber ? 'text-amber-500' : 'text-emerald-500'
+                        }`}
+                      >
+                        {inc.threat_score}
+                      </span>
+                      <span className="text-[10px] text-slate-400"> / 100</span>
+                    </div>
+                  </div>
+
+                  {/* Multi-Sensor Breakdown Bar */}
+                  <div className="mt-3 grid grid-cols-3 gap-2 text-center text-xs">
+                    <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800">
+                      <div className="flex items-center justify-center gap-1 text-[10px] text-slate-500 font-medium">
+                        <Satellite className="w-3 h-3 text-sky-500" />
+                        <span>SAR Radar (40%)</span>
+                      </div>
+                      <span className="font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5 block">
+                        {inc.sar_event ? `${inc.sar_event.backscatter_drop_db} dB drop` : 'None'}
+                      </span>
+                      <span className="text-[10px] text-slate-400">Score: {inc.sensor_breakdown.sar_score}</span>
+                    </div>
+
+                    <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800">
+                      <div className="flex items-center justify-center gap-1 text-[10px] text-slate-500 font-medium">
+                        <Flame className="w-3 h-3 text-red-500" />
+                        <span>Thermal (35%)</span>
+                      </div>
+                      <span className="font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5 block">
+                        {inc.thermal_event ? `${inc.thermal_event.brightness_temp_kelvin}K` : 'None'}
+                      </span>
+                      <span className="text-[10px] text-slate-400">Score: {inc.sensor_breakdown.thermal_score}</span>
+                    </div>
+
+                    <div className="p-2 rounded-lg bg-white/70 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800">
+                      <div className="flex items-center justify-center gap-1 text-[10px] text-slate-500 font-medium">
+                        <Volume2 className="w-3 h-3 text-amber-500" />
+                        <span>Acoustic (25%)</span>
+                      </div>
+                      <span className="font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5 block capitalize truncate">
+                        {inc.acoustic_event ? inc.acoustic_event.event_type : 'None'}
+                      </span>
+                      <span className="text-[10px] text-slate-400">Score: {inc.sensor_breakdown.acoustic_score}</span>
+                    </div>
+                  </div>
+
+                  {/* Temporal Damping & Proximity Indicator */}
+                  <div className="mt-2.5 flex items-center justify-between text-[11px] text-slate-500 px-0.5">
+                    <span>
+                      Temporal Decay: <strong className="text-slate-700 dark:text-slate-300">{inc.sensor_breakdown.temporal_decay_factor}x</strong> ({inc.sensor_breakdown.max_delta_hours}h span)
+                    </span>
+                    <span>
+                      Radius: <strong className="text-slate-700 dark:text-slate-300">{inc.sensor_breakdown.spatial_spread_meters}m</strong>
+                    </span>
+                  </div>
+
+                  {/* Directive Message */}
+                  <div className="mt-2.5 p-2 rounded-lg bg-slate-100 dark:bg-slate-950 text-slate-700 dark:text-slate-300 text-xs">
+                    <span className="font-bold text-slate-900 dark:text-white">Directive: </span>
+                    {inc.action_directive}
+                  </div>
+                </div>
+
+                {/* Tactical Dispatch Action */}
+                <div className="mt-3 pt-2.5 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between gap-2">
+                  <span className="text-[10px] text-slate-400">
+                    Sensor Cadence: Sentinel-1 & VIIRS Active
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      isRed
+                        ? info(
+                            'Tactical Armed Squad Dispatched',
+                            `Emergency response unit dispatched to ${inc.name} (${inc.centroid_lat}°N, ${inc.centroid_lng}°E)`
+                          )
+                        : success(
+                            'Patrol Recon Logged',
+                            `Routine drone surveillance pass queued for ${inc.name}`
+                          )
+                    }
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer ${
+                      isRed
+                        ? 'bg-red-600 hover:bg-red-700 text-white shadow-sm'
+                        : 'bg-slate-800 hover:bg-slate-700 text-white dark:bg-slate-700 dark:hover:bg-slate-600'
+                    }`}
+                  >
+                    <Send className="w-3 h-3" />
+                    <span>{isRed ? 'Dispatch Armed Squad' : 'Deploy Patrol'}</span>
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
     </div>
   );
 };
